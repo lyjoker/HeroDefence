@@ -20,6 +20,7 @@ public:
     cocos2d::Rect getEffectRect();
     int getLine();
     int getHP();
+    int getType();
     bool hasRemoved;
     virtual void setDamage(int) = 0;
 protected:
@@ -32,6 +33,7 @@ protected:
     cocos2d::ProgressTimer* healthBar;
     bool active;
     void removeSelf();
+    int type;
     virtual void setDefaultProperty();
     virtual void setDead() = 0;
 };

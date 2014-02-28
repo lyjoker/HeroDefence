@@ -15,7 +15,7 @@ const float BG_WIDTH = 1100;
 const float BG_HEIGHT = 552;
 const float LEFT_EDGE_X = 0;
 const float RIGHT_EDGE_X = BG_WIDTH * 2;
-const float LINE1 = 201;
+const float LINE1 = 175;
 const float LINE2 = 670;
 const float LINE3 = 900;
 
@@ -31,5 +31,9 @@ const float LINE3 = 900;
 #define MAGICTOWER_ATT 150
 #define MAGICTOWER_ATTSPEED 2.5f
 #define MAGICTOWER_RANGE 500
+
+#define TYPE_FLY 111
+#define TYPE_WALK 222
+#define TYPE_TOWER 333
 
 #endif /* defined(__HeroDeffence__Common__) */

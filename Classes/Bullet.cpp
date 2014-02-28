@@ -10,6 +10,7 @@
 #include "Common.h"
 #include "Entity.h"
 #include "GameScene.h"
+#include "AnimationUtil.h"
 
 USING_NS_CC;
 
@@ -93,10 +94,19 @@ void BulletIntracing::fire()
 }
 void BulletIntracing::explosion()
 {
+    active = false;
     auto frameCache = SpriteFrameCache::getInstance();
     SpriteFrame* tmp = frameCache->getSpriteFrameByName(StringUtils::format("%s_Exp.png", name.c_str()));
     sprite->removeFromParentAndCleanup(true);
-    sprite = Sprite::createWithSpriteFrame(tmp);
+    FiniteTimeAction* tmpAnimate = NULL;
+    if (tmp!=NULL)
+        sprite = Sprite::createWithSpriteFrame(tmp);
+    else
+    {
+        sprite = Sprite::createWithSpriteFrame(frameCache->getSpriteFrameByName(StringUtils::format("%s_Exp1.png", name.c_str())));
+        //tmpAnimate = Animate::create(AnimationUtil::createAnimWithFrame("%s_Exp", 0.1f, 1));
+        sprite->setScale(1.5f);
+    }
     this->addChild(sprite);
     Vector<Entity*> *list = NULL;
     if (targetFaction == ENEMY_FACTION)
@@ -117,11 +127,14 @@ void BulletIntracing::explosion()
             object->setDamage(damage);
         }
     }
-    sprite->runAction(Sequence::create(FadeOut::create(0.3f),
+    if (tmpAnimate == NULL)
+        tmpAnimate = FadeOut::create(0.5f);
+    tmpAnimate = Animate::create(AnimationUtil::createAnimWithFrame(StringUtils::format("%s_Exp", name.c_str()), 0.07f, 1));
+    sprite->runAction(Sequence::create(tmpAnimate,
                                        CallFunc::create(CC_CALLBACK_0(Bullet::removeSelf, this)),
                                        NULL));
     //CCLOG("point: %f, %f", point.x, point.y);
-    active = false;
+    
     
 }
 void BulletIntracing::update(float dt)

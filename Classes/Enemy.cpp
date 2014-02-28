@@ -190,7 +190,7 @@ void Enemy::runToDest()
 EnemyKnight* EnemyKnight::create(int pLine, float pX)
 {
     EnemyKnight *pRet = new EnemyKnight();
-    if (pRet && pRet->initWithProperty("Enemy_Knight", 1000, 60, 35, pLine, pX, 1.0f, 0))
+    if (pRet && pRet->initWithProperty("Enemy_Knight", 1500, 60, 40, pLine, pX, 1.0f, 0))
     {
         pRet->autorelease();
         return pRet;
@@ -204,7 +204,7 @@ EnemyKnight* EnemyKnight::create(int pLine, float pX)
 EnemyBlueDragon* EnemyBlueDragon::create(int pLine, float pX)
 {
     EnemyBlueDragon *pRet = new EnemyBlueDragon();
-    if (pRet && pRet->initWithProperty("Enemy_BlueDragon", 800, 100, 50, pLine, pX, 0.7f, 350))
+    if (pRet && pRet->initWithProperty("Enemy_BlueDragon", 1000, 100, 60, pLine, pX, 0.7f, 350))
     {
         pRet->autorelease();
         return pRet;
@@ -218,14 +218,15 @@ EnemyBlueDragon* EnemyBlueDragon::create(int pLine, float pX)
 
 void EnemyBlueDragon::setDefaultProperty()
 {
-    pointWidthRate = 0.3f;
-    pointHeightRate = 0.5f;
-    widthRate = 0.4f;
+    pointWidthRate = 0.1f;
+    pointHeightRate = 0.4f;
+    widthRate = 0.5f;
     heightRate = 0.3f;
-    this->setPosition(this->getPosition()+Point(0, 300+rand()%100-50));
+    this->setPosition(this->getPosition()+Point(0, 250+rand()%80-40));
     endPoint = this->getPosition();
     endPoint.x = 0;
     runFrames = 8;
+    type = TYPE_FLY;
     //schedule(schedule_selector(EnemyBlueDragon::enemyUpdate), 0.1f);
 }
 void EnemyBlueDragon::attackObject(Entity* target)

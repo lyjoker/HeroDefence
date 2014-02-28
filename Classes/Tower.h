@@ -24,6 +24,8 @@ protected:
     virtual void animateAttack(){};
     virtual void attackObject(Entity* target){};
     virtual void doNothing();
+    virtual void setDefaultProperty();
+    virtual Entity* searchTarget();
 };
 
 class TowerMagic : public Tower
@@ -43,5 +45,13 @@ private:
     void setDefaultProperty();
     bool first;
 };
-
+class TowerRocket : public Tower
+{
+public:
+    static TowerRocket* create(int _line, float _pX);
+private:
+    void attackObject(Entity* target);
+    void animateAttack();
+    Entity* searchTarget();
+};
 #endif /* defined(__HeroDeffence__Tower__) */

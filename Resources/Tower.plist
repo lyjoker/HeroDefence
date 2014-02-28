@@ -30,6 +30,19 @@
                 <key>sourceSize</key>
                 <string>{103,180}</string>
             </dict>
+            <key>Tower_Rocket.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,202},{105,150}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{105,150}}</string>
+                <key>sourceSize</key>
+                <string>{105,150}</string>
+            </dict>
         </dict>
         <key>metadata</key>
         <dict>
@@ -38,9 +51,9 @@
             <key>realTextureFileName</key>
             <string>Tower.png</string>
             <key>size</key>
-            <string>{256,256}</string>
+            <string>{256,512}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:33f7ca90b2b5105473209310b19578fd:0741a0ae6852498a9eb57fe2cb88ec3b:b43693b1cbc56c0101d4756a7d79f5dc$</string>
+            <string>$TexturePacker:SmartUpdate:b8ceac826896b15a86d0b820321c1fb3:039dc9aaf3f85f6b0a8a06419845cec8:b43693b1cbc56c0101d4756a7d79f5dc$</string>
             <key>textureFileName</key>
             <string>Tower.png</string>
         </dict>

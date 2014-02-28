@@ -18,6 +18,10 @@ int Entity::getHP()
 {
     return curHP;
 }
+int Entity::getType()
+{
+    return type;
+}
 void Entity::setDefaultProperty()
 {
     pointWidthRate = 0.15f;
@@ -26,6 +30,7 @@ void Entity::setDefaultProperty()
     heightRate = 0.7f;
     runFrames = 4;
     attFrames = 4;
+    type = TYPE_WALK;
 }
 
 Rect Entity::getEffectRect()

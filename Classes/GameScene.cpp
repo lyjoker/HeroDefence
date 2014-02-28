@@ -45,22 +45,31 @@ bool GameScene::init()
         nowTime = 0;
         for (int i=0; i<=5; i++)
         {
-            auto testEnemy = EnemyKnight::create(2, RIGHT_EDGE_X- i*100);
+            auto testEnemy = EnemyKnight::create(2, RIGHT_EDGE_X- i*90);
             this->addChild(testEnemy, 2);
-            auto testEnemy2 = EnemyBlueDragon::create(2, RIGHT_EDGE_X - i*90);
+            auto testEnemy2 = EnemyBlueDragon::create(2, RIGHT_EDGE_X - i*80);
             this->addChild(testEnemy2, 2);
+            
+            auto testEnemy3 = EnemyBlueDragon::create(1, RIGHT_EDGE_X - i*60);
+            this->addChild(testEnemy3, 2);
+            auto testEnemy4 = EnemyKnight::create(1, RIGHT_EDGE_X - i*40);
+            this->addChild(testEnemy4, 2);
         }
-        auto testTower = TowerMagic::create(2, 1100);
+        auto testTower = TowerMagic::create(2, 850);
         this->addChild(testTower, 1);
-        auto testTower2 = TowerMagic::create(2, 900);
+        auto testTower2 = TowerRocket::create(2, 700);
         this->addChild(testTower2, 1);
-        auto testTower3 = TowerBarrack::create(2, 400);
+        auto testTower3 = TowerBarrack::create(2, 500);
         this->addChild(testTower3, 1);
-
+        
         auto testEnemy2 = EnemyKnight::create(2, RIGHT_EDGE_X-700);
         
         this->addChild(testEnemy2, 2);
         
+        auto testTower5 = TowerRocket::create(1, 400);
+        this->addChild(testTower5, 1);
+        auto testTower6 = TowerBarrack::create(1, 600);
+        this->addChild(testTower6, 1);
         bRet = true;
         this->scheduleUpdate();
     }while (0);

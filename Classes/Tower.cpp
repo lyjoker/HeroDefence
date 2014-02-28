@@ -59,6 +59,16 @@ bool Tower::initWithProperty(int _curHP, int _maxHP, int _attack, float _attSpee
     GameScene::playerList->pushBack(this);
     return true;
 }
+void Tower::setDefaultProperty()
+{
+    pointWidthRate = 0.15f;
+    pointHeightRate = 0.15f;
+    widthRate = 0.7f;
+    heightRate = 0.7f;
+    runFrames = 0;
+    attFrames = 0;
+    type = TYPE_TOWER;
+}
 void Tower::setDamage(int damage)
 {
 
@@ -89,12 +99,8 @@ void Tower::setDead()
                                                           ),
                                          NULL));
 }
-
-void Tower::towerUpdate(float dt)
+Entity* Tower::searchTarget()
 {
-    
-    if (status == STATUS_COOLDOWN)
-        return;
     float min = BG_WIDTH * 2 + 1;
     Entity* attObject = NULL;
     for( Entity* enemy : *GameScene::enemyList)
@@ -109,6 +115,14 @@ void Tower::towerUpdate(float dt)
             attObject = enemy;
         }
     }
+    return attObject;
+}
+void Tower::towerUpdate(float dt)
+{
+    
+    if (status == STATUS_COOLDOWN)
+        return;
+    Entity* attObject = this->searchTarget();
     if (attObject==NULL && status==STATUS_ATTACKING)
     {
         status = STATUS_DONOTHING;
@@ -208,4 +222,72 @@ void TowerBarrack::setDefaultProperty()
     runFrames = 4;
     attFrames = 4;
     first = true;
+}
+void TowerRocket::animateAttack()
+{
+    Animate* animate = Animate::create(AnimationUtil::createAnimWithFrame(
+                                                                          StringUtils::format("Effect_FireSmoke"),
+                                                                          0.08f,
+                                                                          1)
+                                       );
+    auto att_sprite = Sprite::create();
+    att_sprite->runAction(Sequence::create(animate,
+                                           CallFunc::create([&](){this->removeChildByTag(11);}), NULL));
+    att_sprite->setPosition(sprite->getContentSize().width - 10, sprite->getContentSize().height - 10);
+    att_sprite->setAnchorPoint(Point(0, 0.5));
+    att_sprite->setRotation(315.0f);
+    att_sprite->setScale(1.4f);
+    this->addChild(att_sprite, 2, 11);
+}
+void TowerRocket::attackObject(Entity *enemy)
+{
+    //CCLOG("attack!");
+    
+    Point tmp = this->getMidPoint();
+    tmp.y += sprite->getContentSize().height / 2;
+    tmp.x += sprite->getContentSize().width / 2 ;
+    int tmpAttack = attack;
+    if (enemy->getType()==TYPE_FLY)
+        tmpAttack*=2;
+    BulletIntracing *bullet = BulletIntracing::create(enemy, tmpAttack,  tmp, "Bullet_Rocket", true, 0.5f, ENEMY_FACTION);
+    tmp.x += bullet->getContentSize().width / 2;
+    bullet->fire();
+    this->getParent()->addChild(bullet, 3);
+}
+TowerRocket* TowerRocket::create(int line, float pX)
+{
+    TowerRocket* pRet = new TowerRocket;
+    if (pRet && pRet->initWithProperty(1500, 1500, 80, 0.5f, 900, pX, line, "Tower_Rocket"))
+    {
+        pRet->autorelease();
+        return pRet;
+    }
+    else
+    {
+        delete pRet;
+        pRet = NULL;
+        return NULL;
+    }
+}
+Entity* TowerRocket::searchTarget()
+{
+    float min = BG_WIDTH * 2 + 1;
+    Entity* attObject = NULL;
+    int targetType = TYPE_WALK;
+    for( Entity* enemy : *GameScene::enemyList)
+    {
+        if (enemy==NULL || enemy->hasRemoved) continue;
+        if (enemy->getLine() != line || enemy->getHP()<=0)
+            continue;
+        if (targetType == TYPE_FLY && enemy->getType()==TYPE_WALK)
+            continue;
+        float enemy_x = enemy->getPositionX();
+        if (abs(enemy_x - this->getMidPoint().x)<=attRange && (min>enemy_x || (targetType==TYPE_WALK && enemy->getType()==TYPE_FLY)))
+        {
+            targetType = enemy->getType();
+            min = enemy_x;
+            attObject = enemy;
+        }
+    }
+    return attObject;
 }
