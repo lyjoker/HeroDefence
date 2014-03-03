@@ -9,12 +9,12 @@
 #ifndef __HeroDeffence__Common__
 #define __HeroDeffence__Common__
 
-const float WIN_WIDTH = 1152;
+const float WIN_WIDTH = 1136;
 const float WIN_HEIGHT = 640;
-const float BG_WIDTH = 1100;
-const float BG_HEIGHT = 552;
+const float BG_WIDTH = 2200;
+const float BG_HEIGHT = 1104;
 const float LEFT_EDGE_X = 0;
-const float RIGHT_EDGE_X = BG_WIDTH * 2;
+const float RIGHT_EDGE_X = BG_WIDTH;
 const float LINE1 = 175;
 const float LINE2 = 670;
 const float LINE3 = 900;

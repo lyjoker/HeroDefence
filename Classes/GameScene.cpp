@@ -16,12 +16,14 @@
 
 
 USING_NS_CC;
+USING_NS_CC_EXT;
 
 //Size visibleSize = Director::getInstance()->getVisibleSize();
 float MAP_POS_X = WIN_WIDTH / 2;
 float MAP_POS_Y = WIN_HEIGHT / 2;
 
 MenuLayer* GameScene::menulayer = NULL;
+ZoomScrollView* GameScene::sLayer = NULL;
 Vector<Entity*> *GameScene::enemyList = new Vector<Entity*>;
 Vector<Entity*> *GameScene::playerList = new Vector<Entity*>;
 
@@ -29,8 +31,16 @@ Scene* GameScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = GameScene::create();
+    layer->setContentSize(Size(BG_WIDTH, BG_HEIGHT));
+    layer->setScale(0.6f);
+    layer->setContentSize(layer->getContentSize()*0.6);
+    sLayer = ZoomScrollView::create(Size(WIN_WIDTH, WIN_HEIGHT), layer);
+    //layer->setPosition(Point(0, -(BG_HEIGHT-WIN_HEIGHT)/2));
+    
     menulayer = MenuLayer::create();
-    scene->addChild(layer);
+    sLayer->setBounceable(false);
+    scene->addChild(sLayer);
+    CCLOG("%f, %f", layer->getContentSize().width, layer->getContentSize().height);
     scene->addChild(menulayer);
     return scene;
     
@@ -39,10 +49,10 @@ bool GameScene::init()
 {
     bool bRet = false;
     do{
+        test = false;
         srand((unsigned int) time(NULL));
         initBG();
         initFrameCache();
-        nowTime = 0;
         for (int i=0; i<=5; i++)
         {
             auto testEnemy = EnemyKnight::create(2, RIGHT_EDGE_X- i*90);
@@ -89,16 +99,19 @@ void GameScene::initBG()
     m_bgSprite = Sprite::create("background.png");
     scaleNow = 2.0f;
     m_bgSprite->setScale(scaleNow);
-    m_bgSprite->setPosition(Point(BG_WIDTH, BG_HEIGHT));
+    m_bgSprite->setAnchorPoint(Point(0,0));
+    m_bgSprite->setPosition(Point::ZERO);
     this->addChild(m_bgSprite, 0);
-    this->setPosition(-BG_WIDTH + WIN_WIDTH/2,-BG_HEIGHT + WIN_HEIGHT/2);
-    auto bgListener = EventListenerTouchOneByOne::create();
+    //this->setContentSize(Size(2200,1100));
+    /*auto bgListener = EventListenerTouchOneByOne::create();
     bgListener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBGBegan, this);
     bgListener->onTouchMoved = CC_CALLBACK_2(GameScene::onTouchBGMoved, this);
     bgListener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchBGEnded, this);
     getEventDispatcher()->addEventListenerWithSceneGraphPriority(bgListener, m_bgSprite);
-    //getEventDispatcher()->addEventListenerWithFixedPriority(bgListener, 100);
+    //getEventDispatcher()->addEventListenerWithFixedPriority(bgListener, 100);*/
 }
+
+/*
 bool GameScene::onTouchBGBegan(Touch* touch, Event* event)
 {
     nowTouchPoint = touch->getLocation();
@@ -133,11 +146,20 @@ void GameScene::updateEdges()
     minWidth = WIN_WIDTH - scaleNow * BG_WIDTH;
     maxHeight = 0;
     minHeight = WIN_HEIGHT - scaleNow * BG_HEIGHT;
-}
+}*/
 void GameScene::update(float dt)
 {
-    nowTime+=dt;
-    if (menulayer!=NULL)
-        menulayer->timeDisplayer->setString(StringUtils::format("%.2f", nowTime));
+    //nowTime+=dt;
+    //if (menulayer!=NULL)
+        //menulayer->timeDisplayer->setString(StringUtils::format("%.2f", nowTime));
+    if (test) return;
+    test = true;
+    sLayer->setMinScale(0.5f);
+
+    CCLOG("%f", sLayer->getContentSize().width);
     
+}
+void ZoomScrollView::setMinScale(int _tmpscale)
+{
+    _minScale = _tmpscale;
 }

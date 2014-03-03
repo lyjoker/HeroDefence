@@ -16,6 +16,14 @@ public:
     bool init();
     CREATE_FUNC(MenuLayer);
     cocos2d::LabelTTF* timeDisplayer;
+private:
+    float nowTime;
+    void update(float dt);
+    void pauseGame(cocos2d::Object* pSender);
+    void resumeGame(cocos2d::Object* pSender);
+    cocos2d::Scene* pauseScene(cocos2d::RenderTexture*);
+    cocos2d::Layer* pauseLayer();
+    //cocos2d::MenuItemImage* pauseItem;
 };
 
 #endif /* defined(__HeroDeffence__MenuLayer__) */
