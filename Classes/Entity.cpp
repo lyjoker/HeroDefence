@@ -32,7 +32,10 @@ void Entity::setDefaultProperty()
     attFrames = 4;
     type = TYPE_WALK;
 }
-
+Rect Entity::getBoundingBox()
+{
+    return Rect(this->getPositionX(), this->getPositionY(), sprite->getContentSize().width, sprite->getContentSize().height);
+}
 Rect Entity::getEffectRect()
 {
     float _width = sprite->getContentSize().width;

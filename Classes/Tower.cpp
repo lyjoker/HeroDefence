@@ -57,6 +57,7 @@ bool Tower::initWithProperty(int _curHP, int _maxHP, int _attack, float _attSpee
     this->addChild(redbar, 1);
     this->setDefaultProperty();
     GameScene::playerList->pushBack(this);
+    type = TYPE_TOWER;
     return true;
 }
 void Tower::setDefaultProperty()

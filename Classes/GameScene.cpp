@@ -22,8 +22,11 @@ USING_NS_CC_EXT;
 float MAP_POS_X = WIN_WIDTH / 2;
 float MAP_POS_Y = WIN_HEIGHT / 2;
 
+float touchDist = 0;
+Point midPoint;
+
 MenuLayer* GameScene::menulayer = NULL;
-ZoomScrollView* GameScene::sLayer = NULL;
+//ZoomScrollView* GameScene::sLayer = NULL;
 Vector<Entity*> *GameScene::enemyList = new Vector<Entity*>;
 Vector<Entity*> *GameScene::playerList = new Vector<Entity*>;
 
@@ -31,17 +34,15 @@ Scene* GameScene::createScene()
 {
     auto scene = Scene::create();
     auto layer = GameScene::create();
-    layer->setContentSize(Size(BG_WIDTH, BG_HEIGHT));
-    layer->setScale(0.6f);
-    layer->setContentSize(layer->getContentSize()*0.6);
-    sLayer = ZoomScrollView::create(Size(WIN_WIDTH, WIN_HEIGHT), layer);
+    //layer->setContentSize(Size(BG_WIDTH, BG_HEIGHT));
+    //sLayer = ZoomScrollView::create(Size(WIN_WIDTH, WIN_HEIGHT), layer);
     //layer->setPosition(Point(0, -(BG_HEIGHT-WIN_HEIGHT)/2));
     
     menulayer = MenuLayer::create();
-    sLayer->setBounceable(false);
-    scene->addChild(sLayer);
-    CCLOG("%f, %f", layer->getContentSize().width, layer->getContentSize().height);
-    scene->addChild(menulayer);
+    //sLayer->setBounceable(false);
+    scene->addChild(layer, 1, GAMELAYER_TAG);
+    //("%f, %f", layer->getContentSize().width, layer->getContentSize().height);
+    scene->addChild(menulayer, 2, MENULAYER_TAG);
     return scene;
     
 }
@@ -50,6 +51,8 @@ bool GameScene::init()
     bool bRet = false;
     do{
         test = false;
+        maxScale = 1.0f;
+        minScale = 0.6f;
         srand((unsigned int) time(NULL));
         initBG();
         initFrameCache();
@@ -65,21 +68,22 @@ bool GameScene::init()
             auto testEnemy4 = EnemyKnight::create(1, RIGHT_EDGE_X - i*40);
             this->addChild(testEnemy4, 2);
         }
-        auto testTower = TowerMagic::create(2, 850);
+        /*auto testTower = TowerMagic::create(2, 850);
         this->addChild(testTower, 1);
         auto testTower2 = TowerRocket::create(2, 700);
         this->addChild(testTower2, 1);
         auto testTower3 = TowerBarrack::create(2, 500);
         this->addChild(testTower3, 1);
-        
+        */
         auto testEnemy2 = EnemyKnight::create(2, RIGHT_EDGE_X-700);
         
         this->addChild(testEnemy2, 2);
-        
+        /*
         auto testTower5 = TowerRocket::create(1, 400);
         this->addChild(testTower5, 1);
         auto testTower6 = TowerBarrack::create(1, 600);
         this->addChild(testTower6, 1);
+         */
         bRet = true;
         this->scheduleUpdate();
     }while (0);
@@ -102,31 +106,54 @@ void GameScene::initBG()
     m_bgSprite->setAnchorPoint(Point(0,0));
     m_bgSprite->setPosition(Point::ZERO);
     this->addChild(m_bgSprite, 0);
-    //this->setContentSize(Size(2200,1100));
-    /*auto bgListener = EventListenerTouchOneByOne::create();
-    bgListener->onTouchBegan = CC_CALLBACK_2(GameScene::onTouchBGBegan, this);
-    bgListener->onTouchMoved = CC_CALLBACK_2(GameScene::onTouchBGMoved, this);
-    bgListener->onTouchEnded = CC_CALLBACK_2(GameScene::onTouchBGEnded, this);
+    auto bgListener = EventListenerTouchAllAtOnce::create();
+    bgListener->onTouchesBegan = CC_CALLBACK_2(GameScene::onTouchesBGBegan, this);
+    bgListener->onTouchesMoved = CC_CALLBACK_2(GameScene::onTouchesBGMoved, this);
+    bgListener->onTouchesEnded = CC_CALLBACK_2(GameScene::onTouchesBGEnded, this);
+    
     getEventDispatcher()->addEventListenerWithSceneGraphPriority(bgListener, m_bgSprite);
-    //getEventDispatcher()->addEventListenerWithFixedPriority(bgListener, 100);*/
 }
-
-/*
-bool GameScene::onTouchBGBegan(Touch* touch, Event* event)
+void GameScene::onTouchesBGBegan(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event* event)
 {
-    nowTouchPoint = touch->getLocation();
-    return true;
+    if (touches.size()==1)
+    {
+        nowTouchPoint = touches[0]->getLocation();
+    }
+    else if (touches.size()==2)
+    {
+        Point p1 = touches[0]->getLocation();
+        Point p2 = touches[1]->getLocation();
+        touchDist = p1.getDistance(p2);
+        midPoint = this->convertToNodeSpace((p1+p2)/2);
+    }
 }
-void GameScene::onTouchBGMoved(Touch* touch, Event* event)
+void GameScene::onTouchesBGMoved(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event*)
 {
-    Point tmpPoint = touch->getLocation();
-    //layerMove(nowTouchPoint.x - tmpPoint.x, -nowTouchPoint.y + tmpPoint.y);
-    Point nowPoint = this->getPosition();
-    nowPoint = nowPoint + (tmpPoint - nowTouchPoint);
-    this->setPosition(nowPoint);
-    nowTouchPoint = tmpPoint;
+    if (touches.size()==1)
+    {
+        Point tmpPoint = touches[0]->getLocation();
+        Point nowPoint = this->getPosition();
+        nowPoint = nowPoint + (tmpPoint - nowTouchPoint);
+        this->setPosition(nowPoint);
+        nowTouchPoint = tmpPoint;
+    }
+    else if (touches.size()==2)
+    {
+        
+        Point p1 = touches[0]->getLocation();
+        Point p2 = touches[1]->getLocation();
+        float tmpDist = p1.getDistance(p2);
+        float tmpScale = (1+ (tmpDist/touchDist-1)*0.4) * this->getScale();
+        float oldScale = this->getScale();
+        touchDist = tmpDist;
+        tmpScale = fmax(minScale, fmin(maxScale, tmpScale));
+        Point tmpMidPoint = this->convertToNodeSpace((p1+p2)/2);
+        this->setScale(tmpScale);
+        this->setPosition(this->getPosition() + (tmpMidPoint*oldScale-midPoint*tmpScale));
+        midPoint = tmpMidPoint;
+    }
 }
-void GameScene::onTouchBGEnded(Touch* touch, Event* event)
+void GameScene::onTouchesBGEnded(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event*)
 {
     Point nowPoint = this->getPosition();
     Point oriPoint = nowPoint;
@@ -139,25 +166,76 @@ void GameScene::onTouchBGEnded(Touch* touch, Event* event)
         auto moveTo = MoveTo::create(0.5f, nowPoint);
         this->runAction(moveTo);
     }
+
 }
+
 void GameScene::updateEdges()
 {
     maxWidth = 0;
-    minWidth = WIN_WIDTH - scaleNow * BG_WIDTH;
+    minWidth = WIN_WIDTH - this->getScale()*BG_WIDTH;
     maxHeight = 0;
-    minHeight = WIN_HEIGHT - scaleNow * BG_HEIGHT;
-}*/
+    minHeight = WIN_HEIGHT - this->getScale()*BG_HEIGHT;
+}
 void GameScene::update(float dt)
 {
-    //nowTime+=dt;
-    //if (menulayer!=NULL)
-        //menulayer->timeDisplayer->setString(StringUtils::format("%.2f", nowTime));
-    if (test) return;
-    test = true;
-    sLayer->setMinScale(0.5f);
+        
+}
+bool GameScene::canAddTower(cocos2d::Point touchPoint)
+{
+    Point localePoint = this->convertToNodeSpace(touchPoint);
+    Rect rect = Rect(localePoint.x - 60, localePoint.y - 90, 120, 180);
+    if (localePoint.y<LINE1
+        || (localePoint.y>LINE1+140 && localePoint.y<LINE2)
+        || (localePoint.y>LINE2+140 && localePoint.y<LINE3)
+        || localePoint.y>LINE3)
+        return false;
+    for (Entity* obj : *playerList)
+        if (obj->getType()==TYPE_TOWER)
+        {
+            CCLOG("%f, %f", obj->getBoundingBox().getMidX(), obj->getBoundingBox().getMidY());
+            if (obj->getBoundingBox().intersectsRect(rect))
+                return false;
+        }
+    return true;
+}
+bool GameScene::addTower(std::string towerName, Point touchPoint)
+{
+    Entity* tower;
+    Point location = this->convertToNodeSpace(touchPoint);
+    float tmpLine;
+    if (location.y>=LINE1 && location.y<=LINE1+140)
+        tmpLine = 1;
+    else if (location.y>=LINE2 && location.y<=LINE2+140)
+        tmpLine = 2;
+    else if (location.y>=LINE3 && location.y<+LINE3+140)
+        tmpLine = 3;
+    else
+        return false;
+    if (towerName=="Tower_Magic")
+    {
+        if (menulayer->getGold()<TOWERMAGIC_GOLD)
+            return false;
+        tower = TowerMagic::create(tmpLine, location.x-52);
+        menulayer->minusGold(TOWERMAGIC_GOLD);
+    }
+    else if (towerName=="Tower_Rocket")
+    {
+        if (menulayer->getGold()<TOWERROCKET_GOLD)
+            return false;
+        menulayer->minusGold(TOWERROCKET_GOLD);
+        tower = TowerRocket::create(tmpLine, location.x -53);
+    }
+    else if (towerName=="Tower_Barrack")
+    {
+        if (menulayer->getGold()<TOWERBARRACK_GOLD)
+            return false;
+        menulayer->minusGold(TOWERBARRACK_GOLD);
+        tower = TowerBarrack::create(tmpLine, location.x -60);
+    }
+    else return false;
 
-    CCLOG("%f", sLayer->getContentSize().width);
-    
+    this->addChild(tower, 1);
+    return true;
 }
 void ZoomScrollView::setMinScale(int _tmpscale)
 {

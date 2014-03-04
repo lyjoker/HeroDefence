@@ -18,6 +18,7 @@ class Entity : public cocos2d::Node
 public:
     cocos2d::Point getMidPoint();
     cocos2d::Rect getEffectRect();
+    cocos2d::Rect getBoundingBox();
     int getLine();
     int getHP();
     int getType();

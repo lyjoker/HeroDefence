@@ -62,6 +62,14 @@
 		50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF629517ECD46A001EB2F8 /* Icon-100.png */; };
 		50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A017ECD613001EB2F8 /* Icon-29.png */; };
 		50EF62A317ECD613001EB2F8 /* Icon-50.png in Resources */ = {isa = PBXBuildFile; fileRef = 50EF62A117ECD613001EB2F8 /* Icon-50.png */; };
+		912889D018C443B90078A659 /* pause_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 912889CE18C443B90078A659 /* pause_selected.png */; };
+		912889D118C443B90078A659 /* pause.png in Resources */ = {isa = PBXBuildFile; fileRef = 912889CF18C443B90078A659 /* pause.png */; };
+		912889DF18C5BD270078A659 /* Icon_Barrack_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 912889D918C5BD270078A659 /* Icon_Barrack_selected.png */; };
+		912889E018C5BD270078A659 /* Icon_Barrack.png in Resources */ = {isa = PBXBuildFile; fileRef = 912889DA18C5BD270078A659 /* Icon_Barrack.png */; };
+		912889E118C5BD270078A659 /* Icon_Magic_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 912889DB18C5BD270078A659 /* Icon_Magic_selected.png */; };
+		912889E218C5BD270078A659 /* Icon_Magic.png in Resources */ = {isa = PBXBuildFile; fileRef = 912889DC18C5BD270078A659 /* Icon_Magic.png */; };
+		912889E318C5BD270078A659 /* Icon_Rocket_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 912889DD18C5BD270078A659 /* Icon_Rocket_selected.png */; };
+		912889E418C5BD270078A659 /* Icon_Rocket.png in Resources */ = {isa = PBXBuildFile; fileRef = 912889DE18C5BD270078A659 /* Icon_Rocket.png */; };
 		91DF3B4B18BED5BE00E7BC7B /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91DF3B4918BED5BE00E7BC7B /* Entity.cpp */; };
 		91DF3B5418BED9F100E7BC7B /* Enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91DF3B5218BED9F100E7BC7B /* Enemy.cpp */; };
 		91DF3B5A18BEDC6A00E7BC7B /* GameMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91DF3B5818BEDC6A00E7BC7B /* GameMap.cpp */; };
@@ -308,6 +316,14 @@
 		50EF629517ECD46A001EB2F8 /* Icon-100.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-100.png"; sourceTree = "<group>"; };
 		50EF62A017ECD613001EB2F8 /* Icon-29.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-29.png"; sourceTree = "<group>"; };
 		50EF62A117ECD613001EB2F8 /* Icon-50.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-50.png"; sourceTree = "<group>"; };
+		912889CE18C443B90078A659 /* pause_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause_selected.png; sourceTree = "<group>"; };
+		912889CF18C443B90078A659 /* pause.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = pause.png; sourceTree = "<group>"; };
+		912889D918C5BD270078A659 /* Icon_Barrack_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_Barrack_selected.png; sourceTree = "<group>"; };
+		912889DA18C5BD270078A659 /* Icon_Barrack.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_Barrack.png; sourceTree = "<group>"; };
+		912889DB18C5BD270078A659 /* Icon_Magic_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_Magic_selected.png; sourceTree = "<group>"; };
+		912889DC18C5BD270078A659 /* Icon_Magic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_Magic.png; sourceTree = "<group>"; };
+		912889DD18C5BD270078A659 /* Icon_Rocket_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_Rocket_selected.png; sourceTree = "<group>"; };
+		912889DE18C5BD270078A659 /* Icon_Rocket.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_Rocket.png; sourceTree = "<group>"; };
 		91DF3B4918BED5BE00E7BC7B /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Entity.cpp; path = ../Classes/Entity.cpp; sourceTree = "<group>"; };
 		91DF3B4A18BED5BE00E7BC7B /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Entity.h; path = ../Classes/Entity.h; sourceTree = "<group>"; };
 		91DF3B5218BED9F100E7BC7B /* Enemy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Enemy.cpp; path = ../Classes/Enemy.cpp; sourceTree = "<group>"; };
@@ -556,6 +572,14 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				912889D918C5BD270078A659 /* Icon_Barrack_selected.png */,
+				912889DA18C5BD270078A659 /* Icon_Barrack.png */,
+				912889DB18C5BD270078A659 /* Icon_Magic_selected.png */,
+				912889DC18C5BD270078A659 /* Icon_Magic.png */,
+				912889DD18C5BD270078A659 /* Icon_Rocket_selected.png */,
+				912889DE18C5BD270078A659 /* Icon_Rocket.png */,
+				912889CE18C443B90078A659 /* pause_selected.png */,
+				912889CF18C443B90078A659 /* pause.png */,
 				91DF3B7F18BF233F00E7BC7B /* Soldier.plist */,
 				91DF3B8018BF233F00E7BC7B /* Soldier.png */,
 				91DF3B7A18BF073100E7BC7B /* Enemy.plist */,
@@ -773,9 +797,11 @@
 				5087E78617EB970100C73F5D /* Icon-76.png in Resources */,
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
+				912889D018C443B90078A659 /* pause_selected.png in Resources */,
 				1AFAF8BC16D35E4900DB1158 /* CloseNormal.png in Resources */,
 				91DF3B7418BF06EF00E7BC7B /* Tower.plist in Resources */,
 				91DF3B7B18BF073100E7BC7B /* Enemy.plist in Resources */,
+				912889E118C5BD270078A659 /* Icon_Magic_selected.png in Resources */,
 				5087E78317EB970100C73F5D /* Icon-152.png in Resources */,
 				91DF3B7218BF06EF00E7BC7B /* health_bar_green.png in Resources */,
 				91DF3B7718BF070100E7BC7B /* Effect.plist in Resources */,
@@ -788,11 +814,17 @@
 				5087E78017EB970100C73F5D /* Icon-114.png in Resources */,
 				91DF3B7118BF06EF00E7BC7B /* Enemy.png in Resources */,
 				1AFAF8BE16D35E4900DB1158 /* HelloWorld.png in Resources */,
+				912889DF18C5BD270078A659 /* Icon_Barrack_selected.png in Resources */,
 				50EF62A217ECD613001EB2F8 /* Icon-29.png in Resources */,
 				50EF629617ECD46A001EB2F8 /* Icon-40.png in Resources */,
 				5087E78217EB970100C73F5D /* Icon-144.png in Resources */,
 				91DF3B7518BF06EF00E7BC7B /* Tower.png in Resources */,
+				912889D118C443B90078A659 /* pause.png in Resources */,
 				91DF3B8118BF233F00E7BC7B /* Soldier.plist in Resources */,
+				912889E418C5BD270078A659 /* Icon_Rocket.png in Resources */,
+				912889E318C5BD270078A659 /* Icon_Rocket_selected.png in Resources */,
+				912889E218C5BD270078A659 /* Icon_Magic.png in Resources */,
+				912889E018C5BD270078A659 /* Icon_Barrack.png in Resources */,
 				50EF629817ECD46A001EB2F8 /* Icon-80.png in Resources */,
 				5087E78417EB970100C73F5D /* Icon-57.png in Resources */,
 				5087E77E17EB970100C73F5D /* Default.png in Resources */,

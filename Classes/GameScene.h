@@ -44,9 +44,11 @@ public:
     static MenuLayer* menulayer;
     static cocos2d::Vector<Entity*> *enemyList;
     static cocos2d::Vector<Entity*> *playerList;
-    static ZoomScrollView* sLayer;
+    //static ZoomScrollView* sLayer;
     bool init();
     void setTimeDisplay(cocos2d::LabelTTF *);
+    bool canAddTower(cocos2d::Point touchPoint);
+    bool addTower(std::string towerName, cocos2d::Point location);
     CREATE_FUNC(GameScene);
     
 private:
@@ -58,9 +60,13 @@ private:
     //bool onTouchBGBegan(cocos2d::Touch*, cocos2d::Event*);
     //void onTouchBGMoved(cocos2d::Touch*, cocos2d::Event*);
     //void onTouchBGEnded(cocos2d::Touch*, cocos2d::Event*);
-    //cocos2d::Point nowTouchPoint;
-    //void updateEdges();
-    //float maxWidth, minWidth, maxHeight, minHeight;
+    void onTouchesBGBegan(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event*);
+    void onTouchesBGMoved(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event*);
+    void onTouchesBGEnded(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event*);
+    cocos2d::Point nowTouchPoint;
+    void updateEdges();
+    float maxWidth, minWidth, maxHeight, minHeight;
+    float maxScale, minScale;
     void initFrameCache();
     
 };

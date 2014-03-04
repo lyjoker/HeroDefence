@@ -36,4 +36,20 @@ const float LINE3 = 900;
 #define TYPE_WALK 222
 #define TYPE_TOWER 333
 
+#define TYPE_MAGICTOWER 1
+#define TYPE_ROCKETTOWER 2
+#define TYPE_BARRACKTOWER 3
+
+#define TOWERICON_X1 300
+#define TOWERICON_X2 450
+#define TOWERICON_X3 600
+#define TOWERICON_X4 750
+#define TOWERICON_Y  100
+
+#define GAMELAYER_TAG 101
+#define MENULAYER_TAG 102
+
+#define TOWERMAGIC_GOLD 300
+#define TOWERROCKET_GOLD 450
+#define TOWERBARRACK_GOLD 500
 #endif /* defined(__HeroDeffence__Common__) */
