@@ -10,11 +10,12 @@
 #include "GameMap.h"
 #include "AnimationUtil.h"
 #include "GameScene.h"
+#include "MenuLayer.h"
 #include "Bullet.h"
 
 USING_NS_CC;
 
-bool Enemy::initWithProperty(const char* pName, int pHP, int pSpeed, int pAttack, int pLine, float pX, float pAttSpeed, int pAttRange)
+bool Enemy::initWithProperty(const char* pName, int pHP, int pSpeed, int pAttack, int pLine, float pX, float pAttSpeed, int pAttRange, int pGold)
 {
     hasRemoved = false;
     name = pName;
@@ -25,6 +26,7 @@ bool Enemy::initWithProperty(const char* pName, int pHP, int pSpeed, int pAttack
     line = pLine;
     attSpeed = pAttSpeed;
     attRange = pAttRange;
+    setReward(pGold);
     active = true;
     auto frameCache = SpriteFrameCache::getInstance();
     sprite = Sprite::createWithSpriteFrame(
@@ -94,12 +96,16 @@ bool Enemy::initWithProperty(const char* pName, int pHP, int pSpeed, int pAttack
      */
     return true;
 }
-void Enemy::setDamage(int damage)
+void Enemy::setDamage(int damage, Entity* who)
 {
     curHP -= damage;
     healthBar->setPercentage(float(curHP) / float(maxHP) * 100);
     if (curHP <= 0 && active)
     {
+        if (who->getType()!=TYPE_HERO)
+            GameScene::menulayer->addGold(getReward());
+        else
+            GameScene::menulayer->addGold(getReward()*1.3f);
         setDead();
     }
 }
@@ -137,7 +143,7 @@ void Enemy::animateAttack()
 }
 void Enemy::attackObject(Entity* target)
 {
-    target->setDamage(attack);
+    target->setDamage(attack, this);
 }
 void Enemy::enemyUpdate(float dt)
 {
@@ -190,7 +196,7 @@ void Enemy::runToDest()
 EnemyKnight* EnemyKnight::create(int pLine, float pX)
 {
     EnemyKnight *pRet = new EnemyKnight();
-    if (pRet && pRet->initWithProperty("Enemy_Knight", 1500, 60, 40, pLine, pX, 1.0f, 0))
+    if (pRet && pRet->initWithProperty("Enemy_Knight", 1500, 60, 40, pLine, pX, 1.0f, 0, 40))
     {
         pRet->autorelease();
         return pRet;
@@ -204,7 +210,7 @@ EnemyKnight* EnemyKnight::create(int pLine, float pX)
 EnemyBlueDragon* EnemyBlueDragon::create(int pLine, float pX)
 {
     EnemyBlueDragon *pRet = new EnemyBlueDragon();
-    if (pRet && pRet->initWithProperty("Enemy_BlueDragon", 1000, 100, 60, pLine, pX, 0.7f, 350))
+    if (pRet && pRet->initWithProperty("Enemy_BlueDragon", 1000, 100, 60, pLine, pX, 0.7f, 350, 60))
     {
         pRet->autorelease();
         return pRet;
@@ -233,7 +239,7 @@ void EnemyBlueDragon::attackObject(Entity* target)
 {
     Point tmp = this->getMidPoint();
     tmp.x -= sprite->getContentSize().width / 2;
-    BulletIntracing *bullet = BulletIntracing::create(target, attack,  tmp, "Bullet_SmallFireBall", false, 0.8f, PLAYER_FACTION);
+    BulletIntracing *bullet = BulletIntracing::create(target, attack,  tmp, "Bullet_SmallFireBall", false, 0.8f, PLAYER_FACTION, 550, this);
     bullet->fire();
     this->getParent()->addChild(bullet, 3);
 }

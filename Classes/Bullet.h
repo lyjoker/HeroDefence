@@ -39,13 +39,14 @@ protected:
 class BulletIntracing : public Bullet
 {
 public:
-    static BulletIntracing* create(Entity*, int, cocos2d::Point, const char* , bool, float, int);
-    bool initWithProperty(Entity*, int, cocos2d::Point, const char* , bool, float, int);
+    static BulletIntracing* create(Entity*, int, cocos2d::Point, const char* , bool, float, int,int, Entity*);
+    bool initWithProperty(Entity*, int, cocos2d::Point, const char* , bool, float, int,int, Entity*);
     void fire();
     float calAngle();
 protected:
     bool isExplosion;
     Entity* target;
+    Entity* who;
     float angle;
     void update(float dt);
     void explosion();

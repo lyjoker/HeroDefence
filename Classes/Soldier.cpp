@@ -67,7 +67,7 @@ bool Soldier::initWithProperty(const char* pName, int pHP, int pSpeed, int pAtta
     
     return true;
 }
-void Soldier::setDamage(int damage)
+void Soldier::setDamage(int damage, Entity * who)
 {
     curHP -= damage;
     healthBar->setPercentage(float(curHP) / float(maxHP) * 100);
@@ -110,7 +110,7 @@ void Soldier::animateAttack()
 }
 void Soldier::attackObject(Entity* target)
 {
-    target->setDamage(attack);
+    target->setDamage(attack, this);
 }
 void Soldier::soldierUpdate(float dt)
 {

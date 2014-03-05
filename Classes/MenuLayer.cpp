@@ -9,11 +9,13 @@
 #include "MenuLayer.h"
 #include "Common.h"
 #include "GameScene.h"
+#include "IconSprite.h"
 
 USING_NS_CC;
 int magicTag = 11;
 int rocketTag = 12;
 int barrackTag = 13;
+int heroTag = 14;
 
 bool MenuLayer::init()
 {
@@ -40,13 +42,13 @@ bool MenuLayer::init()
     this->addChild(menu);
     
     
-    auto iconMagic = Sprite::create("Icon_Magic.png");
-    auto iconRocket = Sprite::create("Icon_Rocket.png");
-    auto iconBarrack = Sprite::create("Icon_Barrack.png");
+    auto iconMagic = IconSprite::create("Magic", 10);
+    auto iconRocket = IconSprite::create("Rocket", 15);
+    auto iconBarrack = IconSprite::create("Barrack", 30);
     iconMagic->setPosition(Point(TOWERICON_X1, TOWERICON_Y));
     iconRocket->setPosition(Point(TOWERICON_X2, TOWERICON_Y));
     iconBarrack->setPosition(Point(TOWERICON_X3, TOWERICON_Y));
-    towerIconList = new std::vector<Sprite*>();
+    towerIconList = new std::vector<IconSprite*>();
     towerIconList->push_back(iconMagic);
     towerIconList->push_back(iconRocket);
     towerIconList->push_back(iconBarrack);
@@ -55,16 +57,19 @@ bool MenuLayer::init()
     this->addChild(iconRocket, 1, rocketTag);
     this->addChild(iconBarrack, 1, barrackTag);
     
+    //iconHero = IconSprite::create("HeroCat", 30);
+    //iconHero->setPosition(Point(HEROICON_X, HEROICON_Y));
+    //this->addChild(iconHero, 1, heroTag);
+    
+    
+    
     listener = EventListenerTouchOneByOne::create();
     listener->onTouchBegan = CC_CALLBACK_2(MenuLayer::onTouchBegan, this);
     listener->onTouchMoved = CC_CALLBACK_2(MenuLayer::onTouchMoved, this);
     listener->onTouchEnded = CC_CALLBACK_2(MenuLayer::onTouchEnded, this);
     getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
 
-    nameList= new std::string[3];
-    nameList[0] = "Tower_Magic";
-    nameList[1] = "Tower_Rocket";
-    nameList[2] = "Tower_Barrack";
+
     selSprite = NULL;
     
     setGold(1000);
@@ -73,12 +78,14 @@ bool MenuLayer::init()
 bool MenuLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
 {
     int i=0;
-    for (Sprite* sprite : *towerIconList)
+    for (IconSprite* sprite : *towerIconList)
     {
         if (sprite->getBoundingBox().containsPoint(touch->getLocation()))
-        {
-            auto newSprite = Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(StringUtils::format("%s.png", nameList[i].c_str())));
             listener->setSwallowTouches(true);
+        if (sprite->getisEnable() && !sprite->getisCoolDown() && sprite->getBoundingBox().containsPoint(touch->getLocation()))
+        {
+            auto newSprite = Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(StringUtils::format("Tower_%s.png", sprite->getName())));
+            
             newSprite->setPosition(touch->getLocation());
             newSprite->setScale(this->getParent()->getChildByTag(GAMELAYER_TAG)->getScale());
             newSprite->setColor(Color3B::RED);
@@ -89,6 +96,10 @@ bool MenuLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
         }
         i++;
     }
+    //if (iconHero->getisEnable() && !iconHero->getisCoolDown() && iconHero->getBoundingBox().containsPoint(touch->getLocation()))
+    //{
+        
+    //}
     return true;
 }
 GameScene* MenuLayer::getGameLayer()
@@ -112,16 +123,17 @@ void MenuLayer::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *event)
 }
 void MenuLayer::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event)
 {
+    listener->setSwallowTouches(false);
     if (selSprite==NULL)
         return;
-    listener->setSwallowTouches(false);
+    
     this->removeChildByTag(111);
     selSprite = NULL;
     if (((GameScene*)this->getParent()->getChildByTag(GAMELAYER_TAG))->canAddTower(touch->getLocation()))
     {
-        if (((GameScene*)this->getParent()->getChildByTag(GAMELAYER_TAG))->addTower(nameList[nameIndex], touch->getLocation()))
+        if (((GameScene*)this->getParent()->getChildByTag(GAMELAYER_TAG))->addTower(StringUtils::format("Tower_%s", (*towerIconList)[nameIndex]->getName()), touch->getLocation()))
         {
-            coolDown(nameIndex);
+            (*towerIconList)[nameIndex]->setCoolDown();
             return;
         }
         else
@@ -131,42 +143,25 @@ void MenuLayer::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event)
         }
     }
 }
-void MenuLayer::coolDown(int nameIndex)
-{
-    std::string name;
-    switch (nameIndex) {
-        case 0:
-            name = "Icon_Magic_selected.png";
-            break;
-        case 1:
-            name = "Icon_Rocket_selected.png";
-            break;
-        case 2:
-            name = "Icon_Barrack_selected.png";
-            break;
-        default:
-            break;
-    }
-    auto tmp = ProgressTimer::create(Sprite::create(name.c_str()));
-    auto iconSprite = this->getChildByTag(nameIndex+11);
-    tmp->setType(ProgressTimer::Type::RADIAL);
-    tmp->setPercentage(1);
-    iconSprite->addChild(tmp, 1, 1);
-    auto tmp2 = LabelTTF::create();
-    tmp2->setFontName("Arial");
-    tmp2->setFontSize(10);
-    iconSprite->addChild(tmp2, 2, 2);
-    iconSprite->schedule(schedule_selector(MenuLayer::coolDownUpdate), 0.1f);
-}
-void MenuLayer::coolDownUpdate(float dt)
-{
-    
-}
+
 void MenuLayer::update(float dt)
 {
     nowTime+=dt;
     timeDisplayer->setString(StringUtils::format("%.2f", nowTime));
     goldDisplayer->setString(StringUtils::format("Gold: %i", getGold()));
+    int i=0;
+    for (IconSprite* sprite : *towerIconList)
+    {
+        if (sprite->getisEnable() && NeedGold[i]>getGold())
+        {
+            sprite->setEnable(false);
+        }
+        else if (!sprite->getisEnable() && NeedGold[i]<=getGold())
+        {
+            sprite->setEnable(true);
+        }
+        i++;
+    }
 }
 void MenuLayer::addGold(int _var)
 {

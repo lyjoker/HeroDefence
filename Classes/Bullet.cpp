@@ -37,23 +37,24 @@ Rect Bullet::getEffectRect()
     return rect;
 }
 
-bool BulletIntracing::initWithProperty(Entity* _target, int _damage, Point _point, const char* _name, bool _isExplosion, float _scale, int _targetFaction )
+bool BulletIntracing::initWithProperty(Entity* _target, int _damage, Point _point, const char* _name, bool _isExplosion, float _scale, int _targetFaction , int _speed, Entity* _who)
 {
     target = _target;
     damage = _damage;
     point = _point;
     name = _name;
     isExplosion = _isExplosion;
-    speed = 500;
+    speed = _speed;
     scale = _scale;
     targetFaction = _targetFaction;
+    who = _who;
     scheduleUpdate();
     return true;
 }
-BulletIntracing* BulletIntracing::create(Entity* _target, int _damage, Point _point, const char* _name, bool _isExplosion, float _scale, int _targetFaction)
+BulletIntracing* BulletIntracing::create(Entity* _target, int _damage, Point _point, const char* _name, bool _isExplosion, float _scale, int _targetFaction,int _speed, Entity* _who)
 {
     BulletIntracing* pRet = new BulletIntracing();
-    if (pRet && pRet->initWithProperty(_target, _damage, _point, _name, _isExplosion, _scale, _targetFaction))
+    if (pRet && pRet->initWithProperty(_target, _damage, _point, _name, _isExplosion, _scale, _targetFaction,_speed, _who))
     {
         pRet->autorelease();
         return pRet;
@@ -124,7 +125,7 @@ void BulletIntracing::explosion()
             continue;
         if (object->getEffectRect().intersectsRect(tRect))
         {
-            object->setDamage(damage);
+            object->setDamage(damage, who);
         }
     }
     if (tmpAnimate == NULL)
@@ -154,7 +155,7 @@ void BulletIntracing::update(float dt)
                 explosion();
             else
             {
-                target->setDamage(damage);
+                target->setDamage(damage, who);
                 removeSelf();
             }
             return;

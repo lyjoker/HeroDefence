@@ -14,6 +14,7 @@
 
 class MenuLayer;
 class Entity;
+class Hero;
 
 
 class ZoomScrollView : public cocos2d::extension::ScrollView
@@ -44,6 +45,7 @@ public:
     static MenuLayer* menulayer;
     static cocos2d::Vector<Entity*> *enemyList;
     static cocos2d::Vector<Entity*> *playerList;
+    Hero* hero;
     //static ZoomScrollView* sLayer;
     bool init();
     void setTimeDisplay(cocos2d::LabelTTF *);
@@ -68,6 +70,7 @@ private:
     float maxWidth, minWidth, maxHeight, minHeight;
     float maxScale, minScale;
     void initFrameCache();
+    cocos2d::Point tuningPoint(cocos2d::Point);
     
 };
 

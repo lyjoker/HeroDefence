@@ -23,7 +23,7 @@ public:
     int getHP();
     int getType();
     bool hasRemoved;
-    virtual void setDamage(int) = 0;
+    virtual void setDamage(int, Entity*) = 0;
 protected:
     int curHP, maxHP, attack, speed, status, line, attRange;
     float attSpeed;

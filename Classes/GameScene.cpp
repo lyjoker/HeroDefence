@@ -13,6 +13,7 @@
 #include "MenuLayer.h"
 #include "Tower.h"
 #include "Enemy.h"
+#include "Hero.h"
 
 
 USING_NS_CC;
@@ -24,6 +25,7 @@ float MAP_POS_Y = WIN_HEIGHT / 2;
 
 float touchDist = 0;
 Point midPoint;
+bool moved;
 
 MenuLayer* GameScene::menulayer = NULL;
 //ZoomScrollView* GameScene::sLayer = NULL;
@@ -84,6 +86,8 @@ bool GameScene::init()
         auto testTower6 = TowerBarrack::create(1, 600);
         this->addChild(testTower6, 1);
          */
+        hero = HeroCat::create();
+        this->addChild(hero, 3);
         bRet = true;
         this->scheduleUpdate();
     }while (0);
@@ -96,6 +100,7 @@ void GameScene::initFrameCache()
     frameCache->addSpriteFramesWithFile("Enemy.plist", "Enemy.png");
     frameCache->addSpriteFramesWithFile("Effect.plist", "Effect.png");
     frameCache->addSpriteFramesWithFile("Soldier.plist", "Soldier.png");
+    frameCache->addSpriteFramesWithFile("Hero.plist", "Hero.png");
 }
 void GameScene::initBG()
 {
@@ -118,6 +123,7 @@ void GameScene::onTouchesBGBegan(const std::vector<cocos2d::Touch*> &touches, co
     if (touches.size()==1)
     {
         nowTouchPoint = touches[0]->getLocation();
+        moved = false;
     }
     else if (touches.size()==2)
     {
@@ -136,6 +142,7 @@ void GameScene::onTouchesBGMoved(const std::vector<cocos2d::Touch*> &touches, co
         nowPoint = nowPoint + (tmpPoint - nowTouchPoint);
         this->setPosition(nowPoint);
         nowTouchPoint = tmpPoint;
+        moved = true;
     }
     else if (touches.size()==2)
     {
@@ -149,24 +156,33 @@ void GameScene::onTouchesBGMoved(const std::vector<cocos2d::Touch*> &touches, co
         tmpScale = fmax(minScale, fmin(maxScale, tmpScale));
         Point tmpMidPoint = this->convertToNodeSpace((p1+p2)/2);
         this->setScale(tmpScale);
-        this->setPosition(this->getPosition() + (tmpMidPoint*oldScale-midPoint*tmpScale));
+        this->setPosition(tuningPoint(this->getPosition() + (tmpMidPoint*oldScale-midPoint*tmpScale)));
         midPoint = tmpMidPoint;
     }
 }
 void GameScene::onTouchesBGEnded(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event*)
 {
     Point nowPoint = this->getPosition();
-    Point oriPoint = nowPoint;
+    Point oriPoint = tuningPoint(nowPoint);
+    if (!nowPoint.equals(oriPoint)){
+        auto moveTo = MoveTo::create(0.5f, oriPoint);
+        this->runAction(moveTo);
+    }
+    if (touches.size()==1 && !moved)
+    {
+        hero->runToDest(this->convertToNodeSpace(touches[0]->getLocation()));
+    }
+}
+
+Point GameScene::tuningPoint(Point oriPoint)
+{
+    Point nowPoint = oriPoint;
     updateEdges();
     nowPoint.x = fmin(maxWidth, nowPoint.x);
     nowPoint.x = fmax(minWidth, nowPoint.x);
     nowPoint.y = fmin(maxHeight, nowPoint.y);
     nowPoint.y = fmax(minHeight, nowPoint.y);
-    if (!nowPoint.equals(oriPoint)){
-        auto moveTo = MoveTo::create(0.5f, nowPoint);
-        this->runAction(moveTo);
-    }
-
+    return nowPoint;
 }
 
 void GameScene::updateEdges()

@@ -70,6 +70,10 @@
 		912889E218C5BD270078A659 /* Icon_Magic.png in Resources */ = {isa = PBXBuildFile; fileRef = 912889DC18C5BD270078A659 /* Icon_Magic.png */; };
 		912889E318C5BD270078A659 /* Icon_Rocket_selected.png in Resources */ = {isa = PBXBuildFile; fileRef = 912889DD18C5BD270078A659 /* Icon_Rocket_selected.png */; };
 		912889E418C5BD270078A659 /* Icon_Rocket.png in Resources */ = {isa = PBXBuildFile; fileRef = 912889DE18C5BD270078A659 /* Icon_Rocket.png */; };
+		912889EE18C6A6620078A659 /* IconSprite.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 912889EC18C6A6620078A659 /* IconSprite.cpp */; };
+		9194507518C6C7E700B09C6C /* Hero.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 9194507318C6C7E700B09C6C /* Hero.cpp */; };
+		9194507E18C717B800B09C6C /* Hero.plist in Resources */ = {isa = PBXBuildFile; fileRef = 9194507C18C717B800B09C6C /* Hero.plist */; };
+		9194507F18C717B800B09C6C /* Hero.png in Resources */ = {isa = PBXBuildFile; fileRef = 9194507D18C717B800B09C6C /* Hero.png */; };
 		91DF3B4B18BED5BE00E7BC7B /* Entity.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91DF3B4918BED5BE00E7BC7B /* Entity.cpp */; };
 		91DF3B5418BED9F100E7BC7B /* Enemy.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91DF3B5218BED9F100E7BC7B /* Enemy.cpp */; };
 		91DF3B5A18BEDC6A00E7BC7B /* GameMap.cpp in Sources */ = {isa = PBXBuildFile; fileRef = 91DF3B5818BEDC6A00E7BC7B /* GameMap.cpp */; };
@@ -324,6 +328,12 @@
 		912889DC18C5BD270078A659 /* Icon_Magic.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_Magic.png; sourceTree = "<group>"; };
 		912889DD18C5BD270078A659 /* Icon_Rocket_selected.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_Rocket_selected.png; sourceTree = "<group>"; };
 		912889DE18C5BD270078A659 /* Icon_Rocket.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Icon_Rocket.png; sourceTree = "<group>"; };
+		912889EC18C6A6620078A659 /* IconSprite.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = IconSprite.cpp; path = ../Classes/IconSprite.cpp; sourceTree = "<group>"; };
+		912889ED18C6A6620078A659 /* IconSprite.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = IconSprite.h; path = ../Classes/IconSprite.h; sourceTree = "<group>"; };
+		9194507318C6C7E700B09C6C /* Hero.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Hero.cpp; path = ../Classes/Hero.cpp; sourceTree = "<group>"; };
+		9194507418C6C7E700B09C6C /* Hero.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Hero.h; path = ../Classes/Hero.h; sourceTree = "<group>"; };
+		9194507C18C717B800B09C6C /* Hero.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = Hero.plist; sourceTree = "<group>"; };
+		9194507D18C717B800B09C6C /* Hero.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = Hero.png; sourceTree = "<group>"; };
 		91DF3B4918BED5BE00E7BC7B /* Entity.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Entity.cpp; path = ../Classes/Entity.cpp; sourceTree = "<group>"; };
 		91DF3B4A18BED5BE00E7BC7B /* Entity.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Entity.h; path = ../Classes/Entity.h; sourceTree = "<group>"; };
 		91DF3B5218BED9F100E7BC7B /* Enemy.cpp */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.cpp; name = Enemy.cpp; path = ../Classes/Enemy.cpp; sourceTree = "<group>"; };
@@ -441,6 +451,8 @@
 				91DF3B5318BED9F100E7BC7B /* Enemy.h */,
 				91DF3B7C18BF195100E7BC7B /* Soldier.cpp */,
 				91DF3B7D18BF195100E7BC7B /* Soldier.h */,
+				9194507318C6C7E700B09C6C /* Hero.cpp */,
+				9194507418C6C7E700B09C6C /* Hero.h */,
 				91DF3B5818BEDC6A00E7BC7B /* GameMap.cpp */,
 				91DF3B5918BEDC6A00E7BC7B /* GameMap.h */,
 				91DF3B4918BED5BE00E7BC7B /* Entity.cpp */,
@@ -449,6 +461,8 @@
 				91DF3B5C18BEDCC000E7BC7B /* AnimationUtil.h */,
 				91DF3B6118BEF0E000E7BC7B /* MenuLayer.cpp */,
 				91DF3B6218BEF0E000E7BC7B /* MenuLayer.h */,
+				912889EC18C6A6620078A659 /* IconSprite.cpp */,
+				912889ED18C6A6620078A659 /* IconSprite.h */,
 				91DF3B6418BEF1D100E7BC7B /* Bullet.cpp */,
 				91DF3B6518BEF1D100E7BC7B /* Bullet.h */,
 				91DF3B6718BEF95800E7BC7B /* Tower.cpp */,
@@ -572,6 +586,8 @@
 		78C7DDAA14EBA5050085D0C2 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
+				9194507C18C717B800B09C6C /* Hero.plist */,
+				9194507D18C717B800B09C6C /* Hero.png */,
 				912889D918C5BD270078A659 /* Icon_Barrack_selected.png */,
 				912889DA18C5BD270078A659 /* Icon_Barrack.png */,
 				912889DB18C5BD270078A659 /* Icon_Magic_selected.png */,
@@ -798,6 +814,7 @@
 				5087E77F17EB970100C73F5D /* Default@2x.png in Resources */,
 				50EF629917ECD46A001EB2F8 /* Icon-100.png in Resources */,
 				912889D018C443B90078A659 /* pause_selected.png in Resources */,
+				9194507E18C717B800B09C6C /* Hero.plist in Resources */,
 				1AFAF8BC16D35E4900DB1158 /* CloseNormal.png in Resources */,
 				91DF3B7418BF06EF00E7BC7B /* Tower.plist in Resources */,
 				91DF3B7B18BF073100E7BC7B /* Enemy.plist in Resources */,
@@ -807,6 +824,7 @@
 				91DF3B7718BF070100E7BC7B /* Effect.plist in Resources */,
 				91DF3B7318BF06EF00E7BC7B /* health_bar_red.png in Resources */,
 				5087E77D17EB970100C73F5D /* Default-568h@2x.png in Resources */,
+				9194507F18C717B800B09C6C /* Hero.png in Resources */,
 				5087E78517EB970100C73F5D /* Icon-72.png in Resources */,
 				91DF3B7918BF071C00E7BC7B /* Effect.png in Resources */,
 				1AFAF8BD16D35E4900DB1158 /* CloseSelected.png in Resources */,
@@ -857,6 +875,7 @@
 				91DF3B5418BED9F100E7BC7B /* Enemy.cpp in Sources */,
 				1AFAF8B716D35DE700DB1158 /* AppDelegate.cpp in Sources */,
 				91DF3B7E18BF195100E7BC7B /* Soldier.cpp in Sources */,
+				9194507518C6C7E700B09C6C /* Hero.cpp in Sources */,
 				91DF3B5A18BEDC6A00E7BC7B /* GameMap.cpp in Sources */,
 				91DF3B6918BEF95800E7BC7B /* Tower.cpp in Sources */,
 				91DF3B6618BEF1D100E7BC7B /* Bullet.cpp in Sources */,
@@ -864,6 +883,7 @@
 				91DF3B4B18BED5BE00E7BC7B /* Entity.cpp in Sources */,
 				91DF3B5D18BEDCC000E7BC7B /* AnimationUtil.cpp in Sources */,
 				1AFAF8B816D35DE700DB1158 /* HelloWorldScene.cpp in Sources */,
+				912889EE18C6A6620078A659 /* IconSprite.cpp in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

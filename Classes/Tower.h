@@ -16,7 +16,7 @@ class Tower : public Entity
 {
 public:
     bool initWithProperty(int, int,int, float,int, float,int, std::string);
-    virtual void setDamage(int damage);
+    virtual void setDamage(int damage, Entity* who);
     
 protected:
     virtual void setDead();

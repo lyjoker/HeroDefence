@@ -70,7 +70,7 @@ void Tower::setDefaultProperty()
     attFrames = 0;
     type = TYPE_TOWER;
 }
-void Tower::setDamage(int damage)
+void Tower::setDamage(int damage, Entity* who)
 {
 
     curHP -= damage;
@@ -168,7 +168,7 @@ void TowerMagic::attackObject(Entity *enemy)
     
     Point tmp = this->getMidPoint();
     tmp.y += sprite->getContentSize().height / 2;
-    BulletIntracing *bullet = BulletIntracing::create(enemy, attack,  tmp, "Bullet_PurpleBall", false, 0.6f, ENEMY_FACTION);
+    BulletIntracing *bullet = BulletIntracing::create(enemy, attack,  tmp, "Bullet_PurpleBall", false, 0.6f, ENEMY_FACTION, 500, this);
     bullet->fire();
     this->getParent()->addChild(bullet, 3);
 }
@@ -250,7 +250,7 @@ void TowerRocket::attackObject(Entity *enemy)
     int tmpAttack = attack;
     if (enemy->getType()==TYPE_FLY)
         tmpAttack*=2;
-    BulletIntracing *bullet = BulletIntracing::create(enemy, tmpAttack,  tmp, "Bullet_Rocket", true, 0.5f, ENEMY_FACTION);
+    BulletIntracing *bullet = BulletIntracing::create(enemy, tmpAttack,  tmp, "Bullet_Rocket", true, 0.5f, ENEMY_FACTION, 650, this);
     tmp.x += bullet->getContentSize().width / 2;
     bullet->fire();
     this->getParent()->addChild(bullet, 3);
@@ -258,7 +258,7 @@ void TowerRocket::attackObject(Entity *enemy)
 TowerRocket* TowerRocket::create(int line, float pX)
 {
     TowerRocket* pRet = new TowerRocket;
-    if (pRet && pRet->initWithProperty(1500, 1500, 80, 0.5f, 900, pX, line, "Tower_Rocket"))
+    if (pRet && pRet->initWithProperty(1500, 1500, 100, 0.5f, 900, pX, line, "Tower_Rocket"))
     {
         pRet->autorelease();
         return pRet;

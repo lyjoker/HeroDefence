@@ -10,6 +10,8 @@
 #define __HeroDeffence__MenuLayer__
 #include "cocos2d.h"
 class GameScene;
+class IconSprite;
+
 
 class MenuLayer : public cocos2d::Layer
 {
@@ -31,15 +33,13 @@ private:
     cocos2d::Sprite* selSprite;
     CC_SYNTHESIZE(int, _gold, Gold);
     CC_SYNTHESIZE(int, _score, Score);
-    std::vector<cocos2d::Sprite*> *towerIconList;
-    std::string *nameList;
+    std::vector<IconSprite*> *towerIconList;
+    IconSprite* iconHero;
     bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
     void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);
     GameScene* getGameLayer();
     cocos2d::EventListenerTouchOneByOne* listener;
-    void coolDown(int);
-    void coolDownUpdate(float);
     
     
     //cocos2d::MenuItemImage* pauseItem;

@@ -14,8 +14,8 @@
 class Enemy : public Entity
 {
 public:
-    bool initWithProperty(const char* pName, int pHP, int pSpeed, int pAttack, int pLine, float pX, float pAttSpeed, int pAttRange);
-    virtual void setDamage(int damage);
+    bool initWithProperty(const char* pName, int pHP, int pSpeed, int pAttack, int pLine, float pX, float pAttSpeed, int pAttRange, int pGold);
+    virtual void setDamage(int damage, Entity* who);
 protected:
     virtual void enemyUpdate(float dt);
     virtual void animateRun();
@@ -24,6 +24,7 @@ protected:
     virtual void attackObject(Entity* target);
     virtual void runToDest();
     cocos2d::Point endPoint;
+    CC_SYNTHESIZE(int, _reward, Reward);
 };
 class EnemyKnight : public Enemy
 {
