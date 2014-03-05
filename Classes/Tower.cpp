@@ -35,7 +35,7 @@ bool Tower::initWithProperty(int _curHP, int _maxHP, int _attack, float _attSpee
                                                                               StringUtils::format("%s.png", name.c_str())
                                                                               )
                                              );
-    sprite->setAnchorPoint(Point(0, 0));
+    sprite->setAnchorPoint(Point(0.5, 0));
     this->setPosition(position);
     this->addChild(sprite);
     this->schedule(schedule_selector(Tower::towerUpdate), 0.1f);
@@ -47,13 +47,13 @@ bool Tower::initWithProperty(int _curHP, int _maxHP, int _attack, float _attSpee
     healthBar->setBarChangeRate(Point(1, 0));
     healthBar->setPercentage(100);
     healthBar->setScale(sprite->getContentSize().width / healthBar->getContentSize().width);
-    healthBar->setAnchorPoint(Point(0,0));
+    healthBar->setAnchorPoint(Point(0.5,0));
     healthBar->setPosition(Point(0, -15));
     this->addChild(healthBar, 2);
     auto redbar = Sprite::create("health_bar_red.png");
     redbar->setPosition(healthBar->getPosition());
     redbar->setScale(sprite->getContentSize().width / redbar->getContentSize().width);
-    redbar->setAnchorPoint(Point(0,0));
+    redbar->setAnchorPoint(Point(0.5,0));
     this->addChild(redbar, 1);
     this->setDefaultProperty();
     GameScene::playerList->pushBack(this);
@@ -159,13 +159,14 @@ void TowerMagic::animateAttack()
     auto att_sprite = Sprite::create();
     att_sprite->runAction(Sequence::create(animate,
                                           CallFunc::create([&](){this->removeChildByTag(11);}), NULL));
-    att_sprite->setPosition(sprite->getContentSize().width/2, sprite->getContentSize().height);
+    att_sprite->setPosition(0, sprite->getContentSize().height);
     this->addChild(att_sprite, 2, 11);
 }
 void TowerMagic::attackObject(Entity *enemy)
 {
     //CCLOG("attack!");
-    
+    if (enemy==NULL || enemy->hasRemoved || enemy->getHP()<=0)
+        return;
     Point tmp = this->getMidPoint();
     tmp.y += sprite->getContentSize().height / 2;
     BulletIntracing *bullet = BulletIntracing::create(enemy, attack,  tmp, "Bullet_PurpleBall", false, 0.6f, ENEMY_FACTION, 500, this);
@@ -208,7 +209,7 @@ void TowerBarrack::towerUpdate(float dt)
     if (rd<=20 || first)
     {
         first = false;
-        auto soldierFox = SoldierFox::create(line, this->getMidPoint().x - 40);
+        auto soldierFox = SoldierFox::create(line, this->getMidPoint().x);
         this->getParent()->addChild(soldierFox, 2);
     }
 }
@@ -234,7 +235,7 @@ void TowerRocket::animateAttack()
     auto att_sprite = Sprite::create();
     att_sprite->runAction(Sequence::create(animate,
                                            CallFunc::create([&](){this->removeChildByTag(11);}), NULL));
-    att_sprite->setPosition(sprite->getContentSize().width - 10, sprite->getContentSize().height - 10);
+    att_sprite->setPosition(sprite->getContentSize().width/2 - 10, sprite->getContentSize().height - 10);
     att_sprite->setAnchorPoint(Point(0, 0.5));
     att_sprite->setRotation(315.0f);
     att_sprite->setScale(1.4f);
@@ -243,7 +244,8 @@ void TowerRocket::animateAttack()
 void TowerRocket::attackObject(Entity *enemy)
 {
     //CCLOG("attack!");
-    
+    if (enemy==NULL || enemy->hasRemoved || enemy->getHP()<=0)
+        return;
     Point tmp = this->getMidPoint();
     tmp.y += sprite->getContentSize().height / 2;
     tmp.x += sprite->getContentSize().width / 2 ;

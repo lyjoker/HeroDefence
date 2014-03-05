@@ -34,14 +34,14 @@ void Entity::setDefaultProperty()
 }
 Rect Entity::getBoundingBox()
 {
-    return Rect(this->getPositionX(), this->getPositionY(), sprite->getContentSize().width, sprite->getContentSize().height);
+    return Rect(this->getPositionX()-sprite->getContentSize().width/2, this->getPositionY(), sprite->getContentSize().width, sprite->getContentSize().height);
 }
 Rect Entity::getEffectRect()
 {
     float _width = sprite->getContentSize().width;
     float _height = sprite->getContentSize().height;
     auto rect = Rect(
-                     this->getPositionX() + _width * pointWidthRate,
+                     this->getPositionX() + _width * (pointWidthRate-0.5f),
                      this->getPositionY() + _height * pointHeightRate,
                      _width * widthRate,
                      _height * heightRate
@@ -51,7 +51,7 @@ Rect Entity::getEffectRect()
 Point Entity::getMidPoint()
 {
     return (Point(
-                  this->getPositionX() + sprite->getContentSize().width / 2,
+                  this->getPositionX(),
                   this->getPositionY() + sprite->getContentSize().height / 2
                   )
             );

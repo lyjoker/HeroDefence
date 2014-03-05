@@ -14,6 +14,7 @@
 #include "Tower.h"
 #include "Enemy.h"
 #include "Hero.h"
+#include "IconSprite.h"
 
 
 USING_NS_CC;
@@ -194,7 +195,6 @@ void GameScene::updateEdges()
 }
 void GameScene::update(float dt)
 {
-        
 }
 bool GameScene::canAddTower(cocos2d::Point touchPoint)
 {
@@ -231,7 +231,7 @@ bool GameScene::addTower(std::string towerName, Point touchPoint)
     {
         if (menulayer->getGold()<TOWERMAGIC_GOLD)
             return false;
-        tower = TowerMagic::create(tmpLine, location.x-52);
+        tower = TowerMagic::create(tmpLine, location.x);
         menulayer->minusGold(TOWERMAGIC_GOLD);
     }
     else if (towerName=="Tower_Rocket")
@@ -239,19 +239,29 @@ bool GameScene::addTower(std::string towerName, Point touchPoint)
         if (menulayer->getGold()<TOWERROCKET_GOLD)
             return false;
         menulayer->minusGold(TOWERROCKET_GOLD);
-        tower = TowerRocket::create(tmpLine, location.x -53);
+        tower = TowerRocket::create(tmpLine, location.x);
     }
     else if (towerName=="Tower_Barrack")
     {
         if (menulayer->getGold()<TOWERBARRACK_GOLD)
             return false;
         menulayer->minusGold(TOWERBARRACK_GOLD);
-        tower = TowerBarrack::create(tmpLine, location.x -60);
+        tower = TowerBarrack::create(tmpLine, location.x);
     }
     else return false;
 
     this->addChild(tower, 1);
     return true;
+}
+void GameScene::focusOnHero()
+{
+    Point heroLocation = hero->getPosition();
+    heroLocation = this->convertToWorldSpace(heroLocation);
+    this->runAction(MoveTo::create(0.5f, (tuningPoint(this->getPosition()+Point(WIN_WIDTH/2, WIN_HEIGHT/2)-heroLocation))));
+}
+void GameScene::heroDead()
+{
+    menulayer->getIconHero()->setCoolDown();
 }
 void ZoomScrollView::setMinScale(int _tmpscale)
 {

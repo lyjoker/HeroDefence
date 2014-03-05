@@ -34,7 +34,7 @@ bool Enemy::initWithProperty(const char* pName, int pHP, int pSpeed, int pAttack
                                                                               StringUtils::format("%s_run1.png", name.c_str())
                                                                               )
                                              );
-    sprite->setAnchorPoint(Point(0, 0));
+    sprite->setAnchorPoint(Point(0.5, 0));
     sprite->setFlippedX(true);
     this->setPosition(position);
     this->addChild(sprite);
@@ -48,13 +48,13 @@ bool Enemy::initWithProperty(const char* pName, int pHP, int pSpeed, int pAttack
     healthBar->setBarChangeRate(Point(1, 0));
     healthBar->setPercentage(100);
     healthBar->setScale(sprite->getContentSize().width / healthBar->getContentSize().width);
-    healthBar->setAnchorPoint(Point(0,0));
+    healthBar->setAnchorPoint(Point(0.5,0));
     healthBar->setPosition(Point(0, sprite->getContentSize().height));
     this->addChild(healthBar, 2);
     auto redbar = Sprite::create("health_bar_red.png");
     redbar->setPosition(healthBar->getPosition());
     redbar->setScale(sprite->getContentSize().width / redbar->getContentSize().width);
-    redbar->setAnchorPoint(Point(0,0));
+    redbar->setAnchorPoint(Point(0.5,0));
     this->addChild(redbar, 1);
     
     schedule(schedule_selector(Enemy::enemyUpdate), 0.1f);
@@ -135,7 +135,7 @@ void Enemy::animateRun()
 void Enemy::animateAttack()
 {
     
-    Animate* animate = Animate::create(AnimationUtil::createAnimWithFrame(StringUtils::format("%s_attack", name.c_str()), 0.5f/attFrames/attSpeed, 1));
+    Animate* animate = Animate::create(AnimationUtil::createAnimWithFrame(StringUtils::format("%s_attack", name.c_str()), 0.7f/attFrames/attSpeed, 1));
     if (animate == NULL) return;
     sprite->stopAllActions();
     sprite->runAction(animate);
@@ -143,6 +143,8 @@ void Enemy::animateAttack()
 }
 void Enemy::attackObject(Entity* target)
 {
+    if (target==NULL || target->hasRemoved || target->getHP()<=0)
+        return;
     target->setDamage(attack, this);
 }
 void Enemy::enemyUpdate(float dt)
@@ -172,13 +174,13 @@ void Enemy::enemyUpdate(float dt)
     {
         this->stopAllActions();
         this->animateAttack();
-        this->attackObject(attObject);
+        
         status = STATUS_COOLDOWN;
         this->runAction(Sequence::create(
-                                         DelayTime::create(0.5f/attSpeed),
-                                         CallFunc::create([&](){
-            status = STATUS_ATTACKING;
-        }),
+                                         DelayTime::create(0.4f/attSpeed),
+                                         CallFunc::create([=](){attackObject(attObject);}),
+                                         DelayTime::create(0.6f/attSpeed),
+                                         CallFunc::create([&](){status = STATUS_ATTACKING;}),
                                          NULL
                                          ));
         
@@ -210,7 +212,7 @@ EnemyKnight* EnemyKnight::create(int pLine, float pX)
 EnemyBlueDragon* EnemyBlueDragon::create(int pLine, float pX)
 {
     EnemyBlueDragon *pRet = new EnemyBlueDragon();
-    if (pRet && pRet->initWithProperty("Enemy_BlueDragon", 1000, 100, 60, pLine, pX, 0.7f, 350, 60))
+    if (pRet && pRet->initWithProperty("Enemy_BlueDragon", 1000, 100, 60, pLine, pX, 0.8f, 350, 60))
     {
         pRet->autorelease();
         return pRet;
@@ -237,6 +239,8 @@ void EnemyBlueDragon::setDefaultProperty()
 }
 void EnemyBlueDragon::attackObject(Entity* target)
 {
+    if (target==NULL || target->hasRemoved || target->getHP()<=0)
+        return;
     Point tmp = this->getMidPoint();
     tmp.x -= sprite->getContentSize().width / 2;
     BulletIntracing *bullet = BulletIntracing::create(target, attack,  tmp, "Bullet_SmallFireBall", false, 0.8f, PLAYER_FACTION, 550, this);

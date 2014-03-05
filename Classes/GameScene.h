@@ -51,6 +51,8 @@ public:
     void setTimeDisplay(cocos2d::LabelTTF *);
     bool canAddTower(cocos2d::Point touchPoint);
     bool addTower(std::string towerName, cocos2d::Point location);
+    void focusOnHero();
+    void heroDead();
     CREATE_FUNC(GameScene);
     
 private:

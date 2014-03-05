@@ -12,6 +12,7 @@
 #include "GameScene.h"
 #include "Bullet.h"
 
+
 USING_NS_CC;
 
 bool Hero::initWithProperty(const char* pName, int pHP, int pSpeed, int pAttack, int pLine, float pX, float pAttSpeed, int pAttRange)
@@ -33,7 +34,7 @@ bool Hero::initWithProperty(const char* pName, int pHP, int pSpeed, int pAttack,
                                                                             StringUtils::format("%s_wait1.png", name.c_str())
                                                                             )
                                            );
-    sprite->setAnchorPoint(Point(0, 0));
+    sprite->setAnchorPoint(Point(0.5, 0));
     sprite->setFlippedX(!direction);
     this->setPosition(position);
     this->addChild(sprite);
@@ -45,14 +46,14 @@ bool Hero::initWithProperty(const char* pName, int pHP, int pSpeed, int pAttack,
     healthBar->setPercentage(100);
     healthBar->setScale(sprite->getContentSize().width / healthBar->getContentSize().width);
     healthBar->setScaleY(healthBar->getScaleY()*1.5f);
-    healthBar->setAnchorPoint(Point(0,0));
+    healthBar->setAnchorPoint(Point(0.5,0));
     healthBar->setPosition(Point(0, sprite->getContentSize().height+10));
     this->addChild(healthBar, 2);
     auto redbar = Sprite::create("health_bar_red.png");
     redbar->setPosition(healthBar->getPosition());
     redbar->setScale(sprite->getContentSize().width / redbar->getContentSize().width);
     redbar->setScaleY(redbar->getScaleY()*1.5f);
-    redbar->setAnchorPoint(Point(0,0));
+    redbar->setAnchorPoint(Point(0.5,0));
     this->addChild(redbar, 1);
     
     schedule(schedule_selector(Hero::heroUpdate), 0.1f);
@@ -91,7 +92,7 @@ void Hero::dead()
     this->setVisible(false);
     this->unscheduleAllSelectors();
     this->scheduleOnce(schedule_selector(Hero::reborn), 5);
-    
+    ((GameScene*)getParent())->heroDead();
 }
 void Hero::reborn(float dt)
 {
@@ -110,7 +111,7 @@ void Hero::reborn(float dt)
 void Hero::animateRun()
 {
     
-    Animate* animate = Animate::create(AnimationUtil::createAnimWithFrame(StringUtils::format("%s_run", name.c_str()), 80.0f/runFrames/speed, -1));
+    Animate* animate = Animate::create(AnimationUtil::createAnimWithFrame(StringUtils::format("%s_run", name.c_str()), 100.0f/runFrames/speed, -1));
     if (animate == NULL) return;
     sprite->stopAllActions();
     sprite->runAction(animate);
@@ -195,7 +196,6 @@ void Hero::runToDest(Point _dest)
 {
     if (status == STATUS_DEAD)
         return;
-    _dest.x = _dest.x-sprite->getContentSize().width/2;
     if (fabs(_dest.y-this->getPositionY())<150)
     {
         dest.y = this->getPositionY();

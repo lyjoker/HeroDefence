@@ -33,7 +33,7 @@ bool Soldier::initWithProperty(const char* pName, int pHP, int pSpeed, int pAtta
                                                                             StringUtils::format("%s_run1.png", name.c_str())
                                                                             )
                                            );
-    sprite->setAnchorPoint(Point(0, 0));
+    sprite->setAnchorPoint(Point(0.5, 0));
     sprite->setFlippedX(direction);
     this->setPosition(position);
     this->addChild(sprite);
@@ -47,13 +47,13 @@ bool Soldier::initWithProperty(const char* pName, int pHP, int pSpeed, int pAtta
     healthBar->setBarChangeRate(Point(1, 0));
     healthBar->setPercentage(100);
     healthBar->setScale(sprite->getContentSize().width / healthBar->getContentSize().width);
-    healthBar->setAnchorPoint(Point(0,0));
+    healthBar->setAnchorPoint(Point(0.5,0));
     healthBar->setPosition(Point(0, sprite->getContentSize().height));
     this->addChild(healthBar, 2);
     auto redbar = Sprite::create("health_bar_red.png");
     redbar->setPosition(healthBar->getPosition());
     redbar->setScale(sprite->getContentSize().width / redbar->getContentSize().width);
-    redbar->setAnchorPoint(Point(0,0));
+    redbar->setAnchorPoint(Point(0.5,0));
     this->addChild(redbar, 1);
     
     schedule(schedule_selector(Soldier::soldierUpdate), 0.1f);
@@ -102,7 +102,7 @@ void Soldier::animateRun()
 void Soldier::animateAttack()
 {
     
-    Animate* animate = Animate::create(AnimationUtil::createAnimWithFrame(StringUtils::format("%s_attack", name.c_str()), 0.5f/attFrames/attSpeed, 1));
+    Animate* animate = Animate::create(AnimationUtil::createAnimWithFrame(StringUtils::format("%s_attack", name.c_str()), 0.7f/attFrames/attSpeed, 1));
     if (animate == NULL) return;
     sprite->stopAllActions();
     sprite->runAction(animate);
@@ -110,6 +110,8 @@ void Soldier::animateAttack()
 }
 void Soldier::attackObject(Entity* target)
 {
+    if (target==NULL || target->hasRemoved || target->getHP()<=0)
+        return;
     target->setDamage(attack, this);
 }
 void Soldier::soldierUpdate(float dt)
@@ -144,7 +146,9 @@ void Soldier::soldierUpdate(float dt)
         this->attackObject(attObject);
         status = STATUS_COOLDOWN;
         this->runAction(Sequence::create(
-                                         DelayTime::create(0.5f/attSpeed),
+                                         DelayTime::create(0.4f/attSpeed),
+                                         CallFunc::create([=](){attackObject(attObject);}),
+                                         DelayTime::create(0.6f/attSpeed),
                                          CallFunc::create([&](){
             status = STATUS_ATTACKING;
         }),
@@ -164,7 +168,7 @@ void Soldier::runToDest()
 SoldierFox* SoldierFox::create(int pLine, float pX)
 {
     SoldierFox *pRet = new SoldierFox();
-    if (pRet && pRet->initWithProperty("Soldier_Fox", 1500, 80, 60, pLine, pX, 1.1f, 0))
+    if (pRet && pRet->initWithProperty("Soldier_Fox", 1500, 80, 60, pLine, pX, 1.5f, 0))
     {
         pRet->autorelease();
         return pRet;

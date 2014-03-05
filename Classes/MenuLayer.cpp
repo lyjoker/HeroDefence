@@ -57,9 +57,10 @@ bool MenuLayer::init()
     this->addChild(iconRocket, 1, rocketTag);
     this->addChild(iconBarrack, 1, barrackTag);
     
-    //iconHero = IconSprite::create("HeroCat", 30);
-    //iconHero->setPosition(Point(HEROICON_X, HEROICON_Y));
-    //this->addChild(iconHero, 1, heroTag);
+    iconHero = IconSprite::create("HeroCat", 30);
+    iconHero->setPosition(Point(HEROICON_X, HEROICON_Y));
+    iconHero->setScale(0.8f);
+    this->addChild(iconHero, 1, heroTag);
     
     
     
@@ -96,10 +97,14 @@ bool MenuLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
         }
         i++;
     }
-    //if (iconHero->getisEnable() && !iconHero->getisCoolDown() && iconHero->getBoundingBox().containsPoint(touch->getLocation()))
-    //{
-        
-    //}
+    if (iconHero->getBoundingBox().containsPoint(touch->getLocation()))
+    {
+        listener->setSwallowTouches(true);
+        if (iconHero->getisEnable() && !iconHero->getisCoolDown())
+        {
+            getGameLayer()->focusOnHero();
+        }
+    }
     return true;
 }
 GameScene* MenuLayer::getGameLayer()
