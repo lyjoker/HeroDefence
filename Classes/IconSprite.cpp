@@ -49,8 +49,8 @@ void IconSprite::setEnable(bool _enable)
 }
 Rect IconSprite::getBoundingBox()
 {
-    float _width = sprite->getContentSize().width;
-    float _height = sprite->getContentSize().height;
+    float _width = sprite->getContentSize().width * this->getScaleX();
+    float _height = sprite->getContentSize().height * this->getScaleY();
     return Rect(this->getPositionX() - _width / 2,
                 this->getPositionY() - _height / 2,
                 _width,

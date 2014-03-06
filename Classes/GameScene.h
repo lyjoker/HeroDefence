@@ -52,7 +52,11 @@ public:
     bool canAddTower(cocos2d::Point touchPoint);
     bool addTower(std::string towerName, cocos2d::Point location);
     void focusOnHero();
+    bool heroMoveUp();
+    bool heroMoveDown();
     void heroDead();
+    bool heroSkillFirst();
+    void setEnableMove(bool);
     CREATE_FUNC(GameScene);
     
 private:
@@ -60,7 +64,7 @@ private:
     cocos2d::Sprite* m_bgSprite;
     void update(float dt);
     float scaleNow;
-    bool test;
+    bool test, enableMove;
     //bool onTouchBGBegan(cocos2d::Touch*, cocos2d::Event*);
     //void onTouchBGMoved(cocos2d::Touch*, cocos2d::Event*);
     //void onTouchBGEnded(cocos2d::Touch*, cocos2d::Event*);

@@ -43,6 +43,7 @@ public:
     bool initWithProperty(Entity*, int, cocos2d::Point, const char* , bool, float, int,int, Entity*);
     void fire();
     float calAngle();
+    
 protected:
     bool isExplosion;
     Entity* target;
@@ -50,5 +51,18 @@ protected:
     float angle;
     void update(float dt);
     void explosion();
+};
+class BulletFireWall : public Bullet
+{
+public:
+    static BulletFireWall* create(cocos2d::Point, const char*, int, int, float, Entity*);
+    bool initWithProperty(cocos2d::Point, const char*, int, int, float, Entity*);
+    void fire();
+    cocos2d::Rect getEffectRect();
+    void setTimeProperty(float _interval, float _total);
+protected:
+    Entity* who;
+    float intervalTime, totalTime, nowTime, fireWidth, fireHeight;
+    void update(float dt);
 };
 #endif /* defined(__HeroDeffence__Bullet__) */

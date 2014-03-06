@@ -17,10 +17,166 @@
                 <key>sourceSize</key>
                 <string>{40,40}</string>
             </dict>
+            <key>Hero_Cat_SkillFirst1.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{44,2},{200,150}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{200,150}}</string>
+                <key>sourceSize</key>
+                <string>{200,150}</string>
+            </dict>
+            <key>Hero_Cat_SkillFirst10.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{246,2},{200,150}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{200,150}}</string>
+                <key>sourceSize</key>
+                <string>{200,150}</string>
+            </dict>
+            <key>Hero_Cat_SkillFirst11.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{448,2},{200,150}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{200,150}}</string>
+                <key>sourceSize</key>
+                <string>{200,150}</string>
+            </dict>
+            <key>Hero_Cat_SkillFirst12.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{650,2},{200,150}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{200,150}}</string>
+                <key>sourceSize</key>
+                <string>{200,150}</string>
+            </dict>
+            <key>Hero_Cat_SkillFirst2.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,154},{200,150}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{200,150}}</string>
+                <key>sourceSize</key>
+                <string>{200,150}</string>
+            </dict>
+            <key>Hero_Cat_SkillFirst3.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{204,154},{200,150}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{200,150}}</string>
+                <key>sourceSize</key>
+                <string>{200,150}</string>
+            </dict>
+            <key>Hero_Cat_SkillFirst4.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{406,154},{200,150}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{200,150}}</string>
+                <key>sourceSize</key>
+                <string>{200,150}</string>
+            </dict>
+            <key>Hero_Cat_SkillFirst5.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{608,154},{200,150}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{200,150}}</string>
+                <key>sourceSize</key>
+                <string>{200,150}</string>
+            </dict>
+            <key>Hero_Cat_SkillFirst6.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{810,154},{200,150}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{200,150}}</string>
+                <key>sourceSize</key>
+                <string>{200,150}</string>
+            </dict>
+            <key>Hero_Cat_SkillFirst7.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{2,306},{200,150}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{200,150}}</string>
+                <key>sourceSize</key>
+                <string>{200,150}</string>
+            </dict>
+            <key>Hero_Cat_SkillFirst8.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{204,306},{200,150}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{200,150}}</string>
+                <key>sourceSize</key>
+                <string>{200,150}</string>
+            </dict>
+            <key>Hero_Cat_SkillFirst9.png</key>
+            <dict>
+                <key>frame</key>
+                <string>{{406,306},{200,150}}</string>
+                <key>offset</key>
+                <string>{0,0}</string>
+                <key>rotated</key>
+                <false/>
+                <key>sourceColorRect</key>
+                <string>{{0,0},{200,150}}</string>
+                <key>sourceSize</key>
+                <string>{200,150}</string>
+            </dict>
             <key>Hero_Cat_attack1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{44,2},{160,125}}</string>
+                <string>{{608,306},{160,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -33,7 +189,7 @@
             <key>Hero_Cat_attack10.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{206,2},{160,125}}</string>
+                <string>{{770,306},{160,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -46,7 +202,7 @@
             <key>Hero_Cat_attack11.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{368,2},{160,125}}</string>
+                <string>{{2,458},{160,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -59,7 +215,7 @@
             <key>Hero_Cat_attack12.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{530,2},{160,125}}</string>
+                <string>{{164,458},{160,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -72,7 +228,7 @@
             <key>Hero_Cat_attack2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{692,2},{160,125}}</string>
+                <string>{{326,458},{160,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -85,7 +241,7 @@
             <key>Hero_Cat_attack3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{854,2},{160,125}}</string>
+                <string>{{488,458},{160,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -98,7 +254,7 @@
             <key>Hero_Cat_attack4.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,129},{160,125}}</string>
+                <string>{{650,458},{160,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -111,7 +267,7 @@
             <key>Hero_Cat_attack5.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{164,129},{160,125}}</string>
+                <string>{{812,458},{160,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -124,7 +280,7 @@
             <key>Hero_Cat_attack6.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{326,129},{160,125}}</string>
+                <string>{{2,585},{160,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -137,7 +293,7 @@
             <key>Hero_Cat_attack7.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{488,129},{160,125}}</string>
+                <string>{{164,585},{160,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -150,7 +306,7 @@
             <key>Hero_Cat_attack8.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{650,129},{160,125}}</string>
+                <string>{{326,585},{160,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -163,7 +319,7 @@
             <key>Hero_Cat_attack9.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{812,129},{160,125}}</string>
+                <string>{{488,585},{160,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -176,7 +332,7 @@
             <key>Hero_Cat_run1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,256},{150,125}}</string>
+                <string>{{650,585},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -189,7 +345,7 @@
             <key>Hero_Cat_run2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{154,256},{150,125}}</string>
+                <string>{{802,585},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -202,7 +358,7 @@
             <key>Hero_Cat_run3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{306,256},{150,125}}</string>
+                <string>{{2,712},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -215,7 +371,7 @@
             <key>Hero_Cat_run4.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{458,256},{150,125}}</string>
+                <string>{{154,712},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -228,7 +384,7 @@
             <key>Hero_Cat_run5.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{610,256},{150,125}}</string>
+                <string>{{306,712},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -241,7 +397,7 @@
             <key>Hero_Cat_run6.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{762,256},{150,125}}</string>
+                <string>{{458,712},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -254,7 +410,7 @@
             <key>Hero_Cat_run7.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,383},{150,125}}</string>
+                <string>{{610,712},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -267,7 +423,7 @@
             <key>Hero_Cat_run8.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{154,383},{150,125}}</string>
+                <string>{{762,712},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -280,7 +436,7 @@
             <key>Hero_Cat_wait1.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{306,383},{150,125}}</string>
+                <string>{{2,839},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -293,7 +449,7 @@
             <key>Hero_Cat_wait2.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{458,383},{150,125}}</string>
+                <string>{{154,839},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -306,7 +462,7 @@
             <key>Hero_Cat_wait3.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{610,383},{150,125}}</string>
+                <string>{{306,839},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -319,7 +475,7 @@
             <key>Hero_Cat_wait4.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{762,383},{150,125}}</string>
+                <string>{{458,839},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -332,7 +488,7 @@
             <key>Hero_Cat_wait5.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{2,510},{150,125}}</string>
+                <string>{{610,839},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -345,7 +501,7 @@
             <key>Hero_Cat_wait6.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{154,510},{150,125}}</string>
+                <string>{{762,839},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -358,7 +514,7 @@
             <key>Hero_Cat_wait7.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{306,510},{150,125}}</string>
+                <string>{{2,966},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -371,7 +527,7 @@
             <key>Hero_Cat_wait8.png</key>
             <dict>
                 <key>frame</key>
-                <string>{{458,510},{150,125}}</string>
+                <string>{{154,966},{150,125}}</string>
                 <key>offset</key>
                 <string>{0,0}</string>
                 <key>rotated</key>
@@ -389,9 +545,9 @@
             <key>realTextureFileName</key>
             <string>Hero.png</string>
             <key>size</key>
-            <string>{1024,1024}</string>
+            <string>{1024,2048}</string>
             <key>smartupdate</key>
-            <string>$TexturePacker:SmartUpdate:4e612ba04c30114751c4a195ee0f97ef:d7712d415be8680dfe112d28b39d0799:39db81978b5d821c653ed2e674af469f$</string>
+            <string>$TexturePacker:SmartUpdate:e414cde2d636da24ab998bb05da884b9:790aea293e29e2817cfc02a6adcf994f:39db81978b5d821c653ed2e674af469f$</string>
             <key>textureFileName</key>
             <string>Hero.png</string>
         </dict>

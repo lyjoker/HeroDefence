@@ -35,6 +35,9 @@ private:
     CC_SYNTHESIZE(int, _score, Score);
     std::vector<IconSprite*> *towerIconList;
     CC_SYNTHESIZE_READONLY(IconSprite* , iconHero, IconHero);
+    CC_SYNTHESIZE_READONLY(IconSprite*, iconUp, IconUp);
+    CC_SYNTHESIZE_READONLY(IconSprite*, iconDown, IconDown);
+    CC_SYNTHESIZE_READONLY(IconSprite*, iconSkill1, IconSkill1);
     bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
     void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);

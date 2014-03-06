@@ -98,6 +98,7 @@ void Hero::reborn(float dt)
 {
     curHP = maxHP;
     Point position = Point(0, GameMap::lineToY(2));
+    line = 2;
     this->setPosition(position);
     healthBar->setPercentage(100);
     status = STATUS_DONOTHING;
@@ -216,6 +217,36 @@ void Hero::runToDest(Point _dest)
                                          NULL));
     }
 }
+GameScene* Hero::getGameLayer()
+{
+    return ((GameScene*)this->getParent());
+}
+bool Hero::moveUp()
+{
+    if (line == 3)
+        return false;
+    getGameLayer()->setEnableMove(false);
+    active = false;
+    sprite->runAction(Sequence::create(ScaleTo::create(0.3f, 0.1f, 2.0f),
+                                       CallFunc::create([=](){line=line+1;this->setPosition(this->getPositionX(), GameMap::lineToY(line));}),
+                                       ScaleTo::create(0.3f, 1.0f, 1.0f),
+                                       CallFunc::create([=](){this->getGameLayer()->setEnableMove(true);active = true;}),
+                                       NULL));
+    return true;
+}
+bool Hero::moveDown()
+{
+    if (line == 1)
+        return false;
+    getGameLayer()->setEnableMove(false);
+    active = false;
+    sprite->runAction(Sequence::create(ScaleTo::create(0.3f, 0.1f, 2.0f),
+                                       CallFunc::create([=](){line=line-1;this->setPosition(this->getPositionX(), GameMap::lineToY(line));}),
+                                       ScaleTo::create(0.3f, 1.0f, 1.0f),
+                                       CallFunc::create([=](){this->getGameLayer()->setEnableMove(true);active = true;}),
+                                       NULL));
+    return true;
+}
 HeroCat* HeroCat::create()
 {
     HeroCat* pRet = new HeroCat();
@@ -252,4 +283,46 @@ void HeroCat::attackObject(Entity *target)
     BulletIntracing *bullet = BulletIntracing::create(target, attack,  tmp, "Bullet_GreenBall", false, 1.0f, PLAYER_FACTION, 500, this);
     bullet->fire();
     this->getParent()->addChild(bullet, 3);
+}
+void HeroCat::skillFirst()
+{
+    auto ani = AnimationUtil::createAnimWithFrame("Hero_Cat_SkillFirst", 0.08f, 1);
+    this->stopAllActions();
+    sprite->stopAllActions();
+    status = STATUS_COOLDOWN;
+    sprite->runAction(Sequence::create(Animate::create(ani),
+                                       CallFunc::create([=](){status = STATUS_DONOTHING;animateWait();}),
+                                       NULL));
+    this->runAction(Sequence::create(DelayTime::create(0.6f),
+                                     CallFunc::create([=](){this->skillFirstAttack();}),
+                                     NULL));
+}
+void HeroCat::skillFirstAttack()
+{
+    int dr;
+    if (direction)
+        dr = -1;
+    else
+        dr = 1;
+    BulletFireWall* bullet = BulletFireWall::create(this->getPosition()+Point(300*dr, 0), "Effect_FireWall", 50, ENEMY_FACTION, 1.0f, this);
+    bullet->fire();
+    this->getParent()->addChild(bullet, 3);
+}
+void HeroCat::skillSecond()
+{
+    
+    auto ani = AnimationUtil::createAnimWithFrame("Hero_Cat_SkillFirst", 0.08f, 1);
+    this->stopAllActions();
+    sprite->stopAllActions();
+    status = STATUS_COOLDOWN;
+    sprite->runAction(Sequence::create(Animate::create(ani),
+                                       CallFunc::create([=](){status = STATUS_DONOTHING;animateWait();}),
+                                       NULL));
+    this->runAction(Sequence::create(DelayTime::create(0.6f),
+                                     CallFunc::create([=](){this->skillSecondAttack();}),
+                                     NULL));
+}
+void HeroCat::skillSecondAttack()
+{
+    
 }

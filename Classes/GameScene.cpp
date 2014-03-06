@@ -54,6 +54,7 @@ bool GameScene::init()
     bool bRet = false;
     do{
         test = false;
+        enableMove = true;
         maxScale = 1.0f;
         minScale = 0.6f;
         srand((unsigned int) time(NULL));
@@ -121,6 +122,7 @@ void GameScene::initBG()
 }
 void GameScene::onTouchesBGBegan(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event* event)
 {
+    CCLOG("11");
     if (touches.size()==1)
     {
         nowTouchPoint = touches[0]->getLocation();
@@ -136,6 +138,7 @@ void GameScene::onTouchesBGBegan(const std::vector<cocos2d::Touch*> &touches, co
 }
 void GameScene::onTouchesBGMoved(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event*)
 {
+    CCLOG("22");
     if (touches.size()==1)
     {
         Point tmpPoint = touches[0]->getLocation();
@@ -163,13 +166,14 @@ void GameScene::onTouchesBGMoved(const std::vector<cocos2d::Touch*> &touches, co
 }
 void GameScene::onTouchesBGEnded(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event*)
 {
+    CCLOG("33");
     Point nowPoint = this->getPosition();
     Point oriPoint = tuningPoint(nowPoint);
     if (!nowPoint.equals(oriPoint)){
         auto moveTo = MoveTo::create(0.5f, oriPoint);
         this->runAction(moveTo);
     }
-    if (touches.size()==1 && !moved)
+    if (touches.size()==1 && !moved && enableMove)
     {
         hero->runToDest(this->convertToNodeSpace(touches[0]->getLocation()));
     }
@@ -195,6 +199,10 @@ void GameScene::updateEdges()
 }
 void GameScene::update(float dt)
 {
+}
+void GameScene::setEnableMove(bool var)
+{
+    enableMove = var;
 }
 bool GameScene::canAddTower(cocos2d::Point touchPoint)
 {
@@ -262,6 +270,19 @@ void GameScene::focusOnHero()
 void GameScene::heroDead()
 {
     menulayer->getIconHero()->setCoolDown();
+}
+bool GameScene::heroMoveUp()
+{
+    return hero->moveUp();
+}
+bool GameScene::heroMoveDown()
+{
+    return hero->moveDown();
+}
+bool GameScene::heroSkillFirst()
+{
+    hero->skillFirst();
+    return true;
 }
 void ZoomScrollView::setMinScale(int _tmpscale)
 {

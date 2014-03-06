@@ -62,9 +62,22 @@ bool MenuLayer::init()
     iconHero->setScale(0.8f);
     this->addChild(iconHero, 1, heroTag);
     
+    iconUp = IconSprite::create("ArrowUp", 30);
+    iconDown = IconSprite::create("ArrowDown", 30);
+    iconUp->setPosition(Point(950,150));
+    iconDown->setPosition(Point(950, 50));
+    iconUp->setScale(0.3f);
+    iconDown->setScale(0.3f);
+    this->addChild(iconUp, 1);
+    this->addChild(iconDown, 1);
     
+    iconSkill1 = IconSprite::create("HeroCat", 10);
+    iconSkill1 -> setPosition(Point(HEROICON_X, HEROICON_Y+400));
+    iconSkill1->setScale(0.6f);
+    this->addChild(iconSkill1, 1);
     
     listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
     listener->onTouchBegan = CC_CALLBACK_2(MenuLayer::onTouchBegan, this);
     listener->onTouchMoved = CC_CALLBACK_2(MenuLayer::onTouchMoved, this);
     listener->onTouchEnded = CC_CALLBACK_2(MenuLayer::onTouchEnded, this);
@@ -73,16 +86,20 @@ bool MenuLayer::init()
 
     selSprite = NULL;
     
+    
     setGold(1000);
     return true;
 }
 bool MenuLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
 {
     int i=0;
+    bool swal = false;
     for (IconSprite* sprite : *towerIconList)
     {
         if (sprite->getBoundingBox().containsPoint(touch->getLocation()))
-            listener->setSwallowTouches(true);
+        {
+            swal = true;
+        }
         if (sprite->getisEnable() && !sprite->getisCoolDown() && sprite->getBoundingBox().containsPoint(touch->getLocation()))
         {
             auto newSprite = Sprite::createWithSpriteFrame(SpriteFrameCache::getInstance()->getSpriteFrameByName(StringUtils::format("Tower_%s.png", sprite->getName())));
@@ -99,13 +116,40 @@ bool MenuLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
     }
     if (iconHero->getBoundingBox().containsPoint(touch->getLocation()))
     {
-        listener->setSwallowTouches(true);
+        swal = true;
         if (iconHero->getisEnable() && !iconHero->getisCoolDown())
         {
             getGameLayer()->focusOnHero();
         }
     }
-    return true;
+    if (iconUp->getBoundingBox().containsPoint(touch->getLocation()))
+    {
+        swal = true;
+        if (iconUp->getisEnable() && !iconUp->getisCoolDown())
+        {
+            if (getGameLayer()->heroMoveUp())
+                iconUp->setCoolDown();
+        }
+    }
+    if (iconDown->getBoundingBox().containsPoint(touch->getLocation()))
+    {
+        swal = true;
+        if (iconDown->getisEnable() && !iconDown->getisCoolDown())
+        {
+            if (getGameLayer()->heroMoveDown())
+                iconDown->setCoolDown();
+        }
+    }
+    if (iconSkill1->getBoundingBox().containsPoint(touch->getLocation()))
+    {
+        swal = true;
+        if (iconSkill1->getisEnable() && !iconSkill1->getisCoolDown())
+        {
+            if (getGameLayer()->heroSkillFirst())
+                iconSkill1->setCoolDown();
+        }
+    }
+    return swal;
 }
 GameScene* MenuLayer::getGameLayer()
 {
@@ -128,10 +172,11 @@ void MenuLayer::onTouchMoved(cocos2d::Touch *touch, cocos2d::Event *event)
 }
 void MenuLayer::onTouchEnded(cocos2d::Touch *touch, cocos2d::Event *event)
 {
-    listener->setSwallowTouches(false);
-    if (selSprite==NULL)
-        return;
     
+    if (selSprite==NULL)
+    {
+        return;
+    }
     this->removeChildByTag(111);
     selSprite = NULL;
     if (((GameScene*)this->getParent()->getChildByTag(GAMELAYER_TAG))->canAddTower(touch->getLocation()))

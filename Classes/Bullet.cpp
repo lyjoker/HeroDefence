@@ -80,7 +80,7 @@ float BulletIntracing::calAngle()
 }
 void BulletIntracing::fire()
 {
-    if (target==NULL)
+    if (target==NULL || target->hasRemoved || target->getHP()<=0)
         return;
     auto frameCache = SpriteFrameCache::getInstance();
     SpriteFrame* tmp = frameCache->getSpriteFrameByName(StringUtils::format("%s.png", name.c_str()));
@@ -169,3 +169,93 @@ void BulletIntracing::update(float dt)
     }
 }
 
+BulletFireWall* BulletFireWall::create(cocos2d::Point _point, const char* _name, int _damage, int _targetFaction, float _scale, Entity* _who)
+{
+    BulletFireWall* pRet = new BulletFireWall();
+    if (pRet && pRet->initWithProperty(_point, _name, _damage, _targetFaction, _scale, _who))
+    {
+        pRet->autorelease();
+        return pRet;
+    }
+    else
+    {
+        delete pRet;
+        pRet = NULL;
+        return NULL;
+    }
+}
+bool BulletFireWall::initWithProperty(cocos2d::Point _point, const char* _name, int _damage, int _targetFaction, float _scale,  Entity* _who)
+{
+    damage = _damage;
+    point = _point;
+    name = _name;
+    speed = 0;
+    scale = _scale;
+    targetFaction = _targetFaction;
+    who = _who;
+    intervalTime = 0.5f;
+    totalTime = 5.0f;
+    nowTime = 0;
+    fireWidth = 300*scale;
+    fireHeight = 200*scale;
+    this->schedule(schedule_selector(BulletFireWall::update), intervalTime);
+    return true;
+}
+Rect BulletFireWall::getEffectRect()
+{
+    
+    auto rect = Rect(
+                     this->getPositionX()-fireWidth/2,
+                     this->getPositionY(),
+                     fireWidth,
+                     fireHeight
+                     );
+    
+    return rect;
+}
+void BulletFireWall::fire()
+{
+    
+    /*sprite->setScale(scale);
+    sprite->runAction(Animate::create(AnimationUtil::createAnimWithFrame(StringUtils::format("%s", name.c_str()), 0.08f, -1)));
+    sprite->setAnchorPoint(Point(0.5, 0));*/
+    auto test = ParticleSystemQuad::create("Effect_FireWall.plist");
+    //test->setTexture(tmp->getTexture());
+    test->setAnchorPoint(Point(0.5, 0));
+    test->setScale(scale);
+    this->addChild(test);
+    this->setPosition(point);
+    this->setAnchorPoint(Point(0.5, 0));
+    active = true;
+}
+void BulletFireWall::setTimeProperty(float _interval, float _total)
+{
+    this->unscheduleAllSelectors();
+    intervalTime = _interval;
+    totalTime = _total;
+}
+void BulletFireWall::update(float dt)
+{
+    nowTime+=dt;
+    if (nowTime>totalTime)
+    {
+        this->removeSelf();
+    }
+    if (active)
+    {
+        Vector<Entity*> *list = NULL;
+        if (targetFaction == ENEMY_FACTION)
+            list = GameScene::enemyList;
+        else if (targetFaction == PLAYER_FACTION)
+            list = GameScene::playerList;
+        for (Entity* object : *list)
+        {
+            if (object->hasRemoved || object->getHP()<=0)
+                continue;
+            if (object->getEffectRect().intersectsRect(this->getEffectRect()))
+            {
+                object->setDamage(damage, who);
+            }
+        }
+    }
+}
