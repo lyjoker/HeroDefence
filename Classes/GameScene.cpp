@@ -60,7 +60,7 @@ bool GameScene::init()
         srand((unsigned int) time(NULL));
         initBG();
         initFrameCache();
-        for (int i=0; i<=5; i++)
+        /*for (int i=0; i<=3; i++)
         {
             auto testEnemy = EnemyKnight::create(2, RIGHT_EDGE_X- i*90);
             this->addChild(testEnemy, 2);
@@ -71,7 +71,7 @@ bool GameScene::init()
             this->addChild(testEnemy3, 2);
             auto testEnemy4 = EnemyKnight::create(1, RIGHT_EDGE_X - i*40);
             this->addChild(testEnemy4, 2);
-        }
+        }*/
         /*auto testTower = TowerMagic::create(2, 850);
         this->addChild(testTower, 1);
         auto testTower2 = TowerRocket::create(2, 700);
@@ -79,9 +79,6 @@ bool GameScene::init()
         auto testTower3 = TowerBarrack::create(2, 500);
         this->addChild(testTower3, 1);
         */
-        auto testEnemy2 = EnemyKnight::create(2, RIGHT_EDGE_X-700);
-        
-        this->addChild(testEnemy2, 2);
         /*
         auto testTower5 = TowerRocket::create(1, 400);
         this->addChild(testTower5, 1);
@@ -91,6 +88,7 @@ bool GameScene::init()
         hero = HeroCat::create();
         this->addChild(hero, 3);
         bRet = true;
+    
         this->scheduleUpdate();
     }while (0);
     return bRet;
@@ -122,23 +120,21 @@ void GameScene::initBG()
 }
 void GameScene::onTouchesBGBegan(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event* event)
 {
-    CCLOG("11");
     if (touches.size()==1)
     {
         nowTouchPoint = touches[0]->getLocation();
-        moved = false;
+        beginPoint = nowTouchPoint;
     }
     else if (touches.size()==2)
     {
         Point p1 = touches[0]->getLocation();
         Point p2 = touches[1]->getLocation();
         touchDist = p1.getDistance(p2);
-        midPoint = this->convertToNodeSpace((p1+p2)/2);
+        midPoint = (p1+p2)/2;
     }
 }
 void GameScene::onTouchesBGMoved(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event*)
 {
-    CCLOG("22");
     if (touches.size()==1)
     {
         Point tmpPoint = touches[0]->getLocation();
@@ -146,7 +142,6 @@ void GameScene::onTouchesBGMoved(const std::vector<cocos2d::Touch*> &touches, co
         nowPoint = nowPoint + (tmpPoint - nowTouchPoint);
         this->setPosition(nowPoint);
         nowTouchPoint = tmpPoint;
-        moved = true;
     }
     else if (touches.size()==2)
     {
@@ -158,24 +153,25 @@ void GameScene::onTouchesBGMoved(const std::vector<cocos2d::Touch*> &touches, co
         float oldScale = this->getScale();
         touchDist = tmpDist;
         tmpScale = fmax(minScale, fmin(maxScale, tmpScale));
-        Point tmpMidPoint = this->convertToNodeSpace((p1+p2)/2);
+        Point tmpMidPoint = (p1+p2)/2;
         this->setScale(tmpScale);
-        this->setPosition(tuningPoint(this->getPosition() + (tmpMidPoint*oldScale-midPoint*tmpScale)));
+        Point tx = this->convertToNodeSpace(tmpMidPoint)*oldScale- this->convertToNodeSpace(midPoint)*tmpScale;
+        this->setPosition(tuningPoint(this->getPosition() + tx));
         midPoint = tmpMidPoint;
     }
 }
 void GameScene::onTouchesBGEnded(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event*)
 {
-    CCLOG("33");
     Point nowPoint = this->getPosition();
     Point oriPoint = tuningPoint(nowPoint);
     if (!nowPoint.equals(oriPoint)){
         auto moveTo = MoveTo::create(0.5f, oriPoint);
         this->runAction(moveTo);
     }
-    if (touches.size()==1 && !moved && enableMove)
+    if (touches.size()==1 && enableMove)
     {
-        hero->runToDest(this->convertToNodeSpace(touches[0]->getLocation()));
+        if (touches[0]->getLocation().getDistance(beginPoint)<10)
+            hero->runToDest(this->convertToNodeSpace(touches[0]->getLocation()));
     }
 }
 
@@ -199,6 +195,29 @@ void GameScene::updateEdges()
 }
 void GameScene::update(float dt)
 {
+    int x = rand()%200;
+    if (x==1)
+    {
+        int y = rand()%100;
+        int l = 2;
+        if (y<50)
+            l=1;
+            
+        auto testEnemy2 = EnemyKnight::create(l, RIGHT_EDGE_X);
+        
+        this->addChild(testEnemy2, 2);
+    }
+    if (x==2)
+    {
+        int y = rand()%100;
+        int l = 2;
+        if (y<50)
+            l=1;
+        
+        auto testEnemy2 = EnemyBlueDragon::create(l, RIGHT_EDGE_X);
+        
+        this->addChild(testEnemy2, 2);
+    }
 }
 void GameScene::setEnableMove(bool var)
 {
@@ -282,6 +301,11 @@ bool GameScene::heroMoveDown()
 bool GameScene::heroSkillFirst()
 {
     hero->skillFirst();
+    return true;
+}
+bool GameScene::heroSkillSecond()
+{
+    hero->skillSecond();
     return true;
 }
 void ZoomScrollView::setMinScale(int _tmpscale)

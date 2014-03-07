@@ -156,6 +156,8 @@ void Soldier::soldierUpdate(float dt)
                                          ));
         
     }
+    if ((this->getPositionX()>=endPoint.x-1))
+        removeSelf();
     
 }
 void Soldier::runToDest()
@@ -168,7 +170,7 @@ void Soldier::runToDest()
 SoldierFox* SoldierFox::create(int pLine, float pX)
 {
     SoldierFox *pRet = new SoldierFox();
-    if (pRet && pRet->initWithProperty("Soldier_Fox", 1500, 80, 60, pLine, pX, 1.5f, 0))
+    if (pRet && pRet->initWithProperty("Soldier_Fox", 1100, 80, 60, pLine, pX, 1.5f, 0))
     {
         pRet->autorelease();
         return pRet;

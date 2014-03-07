@@ -24,6 +24,7 @@ public:
     virtual bool moveDown();
     virtual void skillFirst()=0;
     virtual void skillSecond()=0;
+    virtual void interrupt();
 protected:
     virtual void heroUpdate(float dt);
     virtual void animateRun();
@@ -37,6 +38,8 @@ protected:
     
     bool direction;
     cocos2d::Point dest;
+    cocos2d::EventListenerTouchOneByOne* listener;
+    bool listenerOn;
 };
 
 class HeroCat : public Hero
@@ -45,10 +48,13 @@ public:
     static HeroCat* create();
     void skillFirst();
     void skillSecond();
+    void interrupt();
 private:
     void setDefaultProperty();
     void attackObject(Entity* target);
     void skillFirstAttack();
-    void skillSecondAttack();
+    void skillSecondAttack(float);
+    void skillSecondReady(float);
+    
 };
 #endif /* defined(__HeroDeffence__Hero__) */

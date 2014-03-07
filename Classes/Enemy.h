@@ -24,6 +24,7 @@ protected:
     virtual void attackObject(Entity* target);
     virtual void runToDest();
     cocos2d::Point endPoint;
+    float nowPx;
     CC_SYNTHESIZE(int, _reward, Reward);
 };
 class EnemyKnight : public Enemy

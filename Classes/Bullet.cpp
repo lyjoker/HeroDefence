@@ -11,6 +11,7 @@
 #include "Entity.h"
 #include "GameScene.h"
 #include "AnimationUtil.h"
+#include "GameMap.h"
 
 USING_NS_CC;
 
@@ -258,4 +259,113 @@ void BulletFireWall::update(float dt)
             }
         }
     }
+}
+
+BulletGreenShower* BulletGreenShower::create(cocos2d::Point _point, const char* _name, int _damage, int _targetFaction, float _scale, Entity* _who)
+{
+    BulletGreenShower* pRet = new BulletGreenShower();
+    if (pRet && pRet->initWithProperty(_point, _name, _damage, _targetFaction, _scale, _who))
+    {
+        pRet->autorelease();
+        return pRet;
+    }
+    else
+    {
+        delete pRet;
+        pRet = NULL;
+        return NULL;
+    }
+}
+bool BulletGreenShower::initWithProperty(cocos2d::Point _point, const char* _name, int _damage, int _targetFaction, float _scale, Entity* _who)
+{
+    damage = _damage;
+    point = _point;
+    name = _name;
+    speed = 0;
+    scale = _scale;
+    targetFaction = _targetFaction;
+    who = _who;
+
+    return true;
+}
+void BulletGreenShower::setAngle(float _angle)
+{
+    angle = _angle;
+}
+void BulletGreenShower::fire()
+{
+    auto test = ParticleSystemQuad::create("Effect_GreenShower.plist");
+    //test->setTexture(tmp->getTexture());
+    test->setAnchorPoint(Point(0.5, 1));
+    test->setScale(scale);
+    test->setRotation(angle-90);
+    test->setPosition(50*cosf(CC_DEGREES_TO_RADIANS(angle)), 50-50*sinf(CC_DEGREES_TO_RADIANS(angle)));
+    this->addChild(test,1, 9);
+    this->setPosition(point);
+    this->setAnchorPoint(Point(0.5, 0));
+    this->scheduleOnce(schedule_selector(BulletGreenShower::update), 0.3f);
+    this->scheduleOnce(schedule_selector(BulletGreenShower::removeUpdate), 0.5f);
+    active = true;
+}
+void BulletGreenShower::update(float dt)
+{
+    ((ParticleSystemQuad*)this->getChildByTag(9))->stopSystem();
+    if (active)
+    {
+        Vector<Entity*> *list = NULL;
+        if (targetFaction == ENEMY_FACTION)
+            list = GameScene::enemyList;
+        else if (targetFaction == PLAYER_FACTION)
+            list = GameScene::playerList;
+        for (Entity* object : *list)
+        {
+            if (object->hasRemoved || object->getHP()<=0)
+                continue;
+            Rect targetRect = object->getEffectRect();
+            float mx = targetRect.getMidX();
+            float my = targetRect.getMidY();
+            if (checkAttack(mx, my, object))
+                continue;
+            mx = targetRect.getMinX();
+            my = targetRect.getMinY();
+            if (checkAttack(mx, my, object))
+                continue;
+            mx = targetRect.getMaxX();
+            my = targetRect.getMaxY();
+            if (checkAttack(mx, my, object))
+                continue;
+            mx = targetRect.getMinX();
+            my = targetRect.getMaxY();
+            if (checkAttack(mx, my, object))
+                continue;
+            mx = targetRect.getMaxX();
+            my = targetRect.getMinY();
+            if (checkAttack(mx, my, object))
+                continue;
+            
+        }
+    }
+}
+bool BulletGreenShower::checkAttack(float mx, float my, Entity* object)
+{
+    Point p = this->getPosition()+(this->getChildByTag(9))->getPosition();
+    CCLOG("%f, %f - %f, %f", p.x, p.y, mx, my);
+    if (p.getDistance(Point(mx, my))<450)
+    {
+        float ta = 360 - GameMap::calAngle(p, Point(mx, my));
+        if (fabs(ta-angle)<=30 || (fabs(ta-angle)>=330 && fabs(ta-angle)<=360))
+        {
+            object->setDamage(damage, who);
+            float backDist = 200;
+            if (mx<this->getPositionX())
+                backDist = -200;
+            object->runAction(MoveTo::create(0.2f, object->getPosition()+Point(backDist, 0)));
+            return true;
+        }
+    }
+    return false;
+}
+void BulletGreenShower::removeUpdate(float dt)
+{
+    removeSelf();
 }

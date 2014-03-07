@@ -22,6 +22,7 @@ public:
     void addGold(int _var);
     void addScore(int _var);
     void minusGold(int _var);
+    IconSprite* getSkillIcon(int _var);
 private:
     float nowTime;
     int nameIndex;
@@ -34,10 +35,10 @@ private:
     CC_SYNTHESIZE(int, _gold, Gold);
     CC_SYNTHESIZE(int, _score, Score);
     std::vector<IconSprite*> *towerIconList;
+    std::vector<IconSprite*> *skillIconList;
     CC_SYNTHESIZE_READONLY(IconSprite* , iconHero, IconHero);
     CC_SYNTHESIZE_READONLY(IconSprite*, iconUp, IconUp);
     CC_SYNTHESIZE_READONLY(IconSprite*, iconDown, IconDown);
-    CC_SYNTHESIZE_READONLY(IconSprite*, iconSkill1, IconSkill1);
     bool onTouchBegan(cocos2d::Touch* touch, cocos2d::Event* event);
     void onTouchMoved(cocos2d::Touch* touch, cocos2d::Event* event);
     void onTouchEnded(cocos2d::Touch* touch, cocos2d::Event* event);

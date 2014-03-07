@@ -48,7 +48,7 @@ const float LINE3 = 900;
 #define TOWERICON_X3 700
 #define TOWERICON_X4 850
 #define TOWERICON_Y  100
-#define HEROICON_X 200
+#define HEROICON_X 100
 #define HEROICON_Y 100
 
 

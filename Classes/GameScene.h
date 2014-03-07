@@ -56,6 +56,7 @@ public:
     bool heroMoveDown();
     void heroDead();
     bool heroSkillFirst();
+    bool heroSkillSecond();
     void setEnableMove(bool);
     CREATE_FUNC(GameScene);
     
@@ -71,7 +72,7 @@ private:
     void onTouchesBGBegan(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event*);
     void onTouchesBGMoved(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event*);
     void onTouchesBGEnded(const std::vector<cocos2d::Touch*> &touches, cocos2d::Event*);
-    cocos2d::Point nowTouchPoint;
+    cocos2d::Point nowTouchPoint, beginPoint;
     void updateEdges();
     float maxWidth, minWidth, maxHeight, minHeight;
     float maxScale, minScale;

@@ -71,10 +71,19 @@ bool MenuLayer::init()
     this->addChild(iconUp, 1);
     this->addChild(iconDown, 1);
     
-    iconSkill1 = IconSprite::create("HeroCat", 10);
+    
+    skillIconList = new std::vector<IconSprite*>();
+    auto iconSkill1 = IconSprite::create("HeroCat", 10);
     iconSkill1 -> setPosition(Point(HEROICON_X, HEROICON_Y+400));
     iconSkill1->setScale(0.6f);
     this->addChild(iconSkill1, 1);
+    skillIconList->push_back(iconSkill1);
+    
+    auto iconSkill2 = IconSprite::create("HeroCat", 10);
+    iconSkill2-> setPosition(Point(HEROICON_X, HEROICON_Y+300));
+    iconSkill2->setScale(0.6f);
+    this->addChild(iconSkill2, 1);
+    skillIconList->push_back(iconSkill2);
     
     listener = EventListenerTouchOneByOne::create();
     listener->setSwallowTouches(true);
@@ -140,13 +149,29 @@ bool MenuLayer::onTouchBegan(cocos2d::Touch *touch, cocos2d::Event *event)
                 iconDown->setCoolDown();
         }
     }
-    if (iconSkill1->getBoundingBox().containsPoint(touch->getLocation()))
+    i = 0;
+    for (IconSprite* iconSkill : *skillIconList)
     {
-        swal = true;
-        if (iconSkill1->getisEnable() && !iconSkill1->getisCoolDown())
+        i++;
+        if (iconSkill->getBoundingBox().containsPoint(touch->getLocation()))
         {
-            if (getGameLayer()->heroSkillFirst())
-                iconSkill1->setCoolDown();
+            swal = true;
+            if (iconSkill->getisEnable() && !iconSkill->getisCoolDown())
+            {
+                switch (i) {
+                    case 1:
+                        if (getGameLayer()->heroSkillFirst())
+                            iconSkill->setCoolDown();
+                        break;
+                    case 2:
+                        getGameLayer()->heroSkillSecond();
+                           
+                        break;
+                    default:
+                        break;
+                }
+                
+            }
         }
     }
     return swal;
@@ -267,4 +292,8 @@ Layer* MenuLayer::pauseLayer()
 void MenuLayer::resumeGame(Object* pSender)
 {
     Director::getInstance()->popScene();
+}
+IconSprite* MenuLayer::getSkillIcon(int _var)
+{
+    return (skillIconList->at(_var-1));
 }

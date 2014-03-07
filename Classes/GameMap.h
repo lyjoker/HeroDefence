@@ -17,6 +17,6 @@ class GameMap
 public:
     static cocos2d::Point MapPoint(int line, float position, float nowScale);
     static float lineToY(int line);
-    
+    static float calAngle(const cocos2d::Point&, const cocos2d::Point&);
 };
 #endif /* defined(__HeroDeffence__GameMap__) */

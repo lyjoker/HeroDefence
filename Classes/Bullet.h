@@ -65,4 +65,18 @@ protected:
     float intervalTime, totalTime, nowTime, fireWidth, fireHeight;
     void update(float dt);
 };
+class BulletGreenShower : public Bullet
+{
+public:
+    static BulletGreenShower* create(cocos2d::Point, const char*, int, int, float, Entity*);
+    bool initWithProperty(cocos2d::Point, const char*, int, int, float, Entity*);
+    void fire();
+    void setAngle(float);
+protected:
+    Entity* who;
+    void update(float dt);
+    void removeUpdate(float dt);
+    bool checkAttack(float, float, Entity*);
+    float angle;
+};
 #endif /* defined(__HeroDeffence__Bullet__) */

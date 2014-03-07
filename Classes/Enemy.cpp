@@ -28,6 +28,7 @@ bool Enemy::initWithProperty(const char* pName, int pHP, int pSpeed, int pAttack
     attRange = pAttRange;
     setReward(pGold);
     active = true;
+    nowPx = pX;
     auto frameCache = SpriteFrameCache::getInstance();
     sprite = Sprite::createWithSpriteFrame(
                                              frameCache->getSpriteFrameByName(
@@ -170,6 +171,12 @@ void Enemy::enemyUpdate(float dt)
         this->runToDest();
         return;
     }
+    if (attObject==NULL && status==STATUS_RUNNING)
+    {
+        if (this->getPositionX()==nowPx)
+            this->runToDest();
+        nowPx = this->getPositionX();
+    }
     if (attObject!=NULL)
     {
         this->stopAllActions();
@@ -184,6 +191,12 @@ void Enemy::enemyUpdate(float dt)
                                          NULL
                                          ));
         
+    }
+    if (this->getPositionX()<=endPoint.x+1)
+    {
+        //EventCustom event("Game Over");
+        //_eventDispatcher->dispatchEvent(&event);
+        removeSelf();
     }
     
 }
@@ -212,7 +225,7 @@ EnemyKnight* EnemyKnight::create(int pLine, float pX)
 EnemyBlueDragon* EnemyBlueDragon::create(int pLine, float pX)
 {
     EnemyBlueDragon *pRet = new EnemyBlueDragon();
-    if (pRet && pRet->initWithProperty("Enemy_BlueDragon", 1000, 100, 60, pLine, pX, 0.8f, 350, 60))
+    if (pRet && pRet->initWithProperty("Enemy_BlueDragon", 800, 100, 60, pLine, pX, 0.8f, 350, 60))
     {
         pRet->autorelease();
         return pRet;

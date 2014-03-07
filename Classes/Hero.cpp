@@ -11,6 +11,8 @@
 #include "AnimationUtil.h"
 #include "GameScene.h"
 #include "Bullet.h"
+#include "IconSprite.h"
+#include "MenuLayer.h"
 
 
 USING_NS_CC;
@@ -227,6 +229,7 @@ bool Hero::moveUp()
         return false;
     getGameLayer()->setEnableMove(false);
     active = false;
+    interrupt();
     sprite->runAction(Sequence::create(ScaleTo::create(0.3f, 0.1f, 2.0f),
                                        CallFunc::create([=](){line=line+1;this->setPosition(this->getPositionX(), GameMap::lineToY(line));}),
                                        ScaleTo::create(0.3f, 1.0f, 1.0f),
@@ -240,12 +243,22 @@ bool Hero::moveDown()
         return false;
     getGameLayer()->setEnableMove(false);
     active = false;
+    interrupt();
     sprite->runAction(Sequence::create(ScaleTo::create(0.3f, 0.1f, 2.0f),
                                        CallFunc::create([=](){line=line-1;this->setPosition(this->getPositionX(), GameMap::lineToY(line));}),
                                        ScaleTo::create(0.3f, 1.0f, 1.0f),
                                        CallFunc::create([=](){this->getGameLayer()->setEnableMove(true);active = true;}),
                                        NULL));
     return true;
+}
+void Hero::interrupt()
+{
+    listenerOn = false;
+    getEventDispatcher()->removeEventListener(listener);
+    this->stopAllActions();
+    sprite->stopAllActions();
+    status = STATUS_DONOTHING;
+    animateWait();
 }
 HeroCat* HeroCat::create()
 {
@@ -270,6 +283,8 @@ void HeroCat::setDefaultProperty()
     heightRate = 0.8f;
     runFrames = 8;
     attFrames = 12;
+    listenerOn = false;
+    listener = NULL;
 }
 void HeroCat::attackObject(Entity *target)
 {
@@ -310,7 +325,43 @@ void HeroCat::skillFirstAttack()
 }
 void HeroCat::skillSecond()
 {
+    auto tmpSprite = Sprite::create("Effect_BlueFan.png");
+    tmpSprite->setScale(0.5f);
+    tmpSprite->setAnchorPoint(Point(0,0.5));
+    tmpSprite->setPosition(0, sprite->getContentSize().height/2);
+    tmpSprite->setOpacity(100);
+    if (direction)
+        tmpSprite->setRotation(180);
+    this->addChild(tmpSprite,2 , 19);
+    listenerOn = true;
+    listener = EventListenerTouchOneByOne::create();
+    listener->setSwallowTouches(true);
+    listener->onTouchBegan = [=](Touch* touch, Event* event){
+        if (!listenerOn)
+            return false;
+        float angle = GameMap::calAngle(this->getPosition()+tmpSprite->getPosition(), this->getParent()->convertToNodeSpace(touch->getLocation()));
+        tmpSprite->setRotation(360-angle);
+        return true;};
+    listener->onTouchMoved = [=](Touch* touch, Event* event){
+        if (!listenerOn)
+            return;
+        float angle = GameMap::calAngle(this->getPosition()+tmpSprite->getPosition(), this->getParent()->convertToNodeSpace(touch->getLocation()));
+        tmpSprite->setRotation(360-angle);
+    };
+    listener->onTouchEnded = [=](Touch* touch, Event* event){
+        if (!listenerOn)
+            return;
+        
+        float angle = GameMap::calAngle(this->getPosition()+tmpSprite->getPosition(), this->getParent()->convertToNodeSpace(touch->getLocation()));
+        this->removeChild(tmpSprite);
+        skillSecondReady(360-angle);
+        listenerOn = false;
+    };
+    getEventDispatcher()->addEventListenerWithSceneGraphPriority(listener, this);
     
+}
+void HeroCat::skillSecondReady(float angle)
+{
     auto ani = AnimationUtil::createAnimWithFrame("Hero_Cat_SkillFirst", 0.08f, 1);
     this->stopAllActions();
     sprite->stopAllActions();
@@ -319,10 +370,27 @@ void HeroCat::skillSecond()
                                        CallFunc::create([=](){status = STATUS_DONOTHING;animateWait();}),
                                        NULL));
     this->runAction(Sequence::create(DelayTime::create(0.6f),
-                                     CallFunc::create([=](){this->skillSecondAttack();}),
+                                     CallFunc::create([=](){this->skillSecondAttack(angle);}),
                                      NULL));
-}
-void HeroCat::skillSecondAttack()
-{
+    GameScene::menulayer->getSkillIcon(2)->setCoolDown();
     
+}
+void HeroCat::skillSecondAttack(float angle)
+{
+    getEventDispatcher()->removeEventListener(listener);
+    BulletGreenShower* bullet = BulletGreenShower::create(this->getPosition(), "Effect_GreenShower", 400, ENEMY_FACTION, 1.0f, this);
+    bullet->setAngle(angle);
+    bullet->fire();
+    this->getParent()->addChild(bullet, 3);
+}
+void HeroCat::interrupt()
+{
+    listenerOn = false;
+    getEventDispatcher()->removeEventListener(listener);
+    this->stopAllActions();
+    sprite->stopAllActions();
+    if (this->getChildByTag(19)!=NULL)
+        this->removeChildByTag(19);
+    status = STATUS_DONOTHING;
+    animateWait();
 }

@@ -206,7 +206,7 @@ TowerBarrack* TowerBarrack::create(int line, float pX)
 void TowerBarrack::towerUpdate(float dt)
 {
     int rd = rand()%100;
-    if (rd<=20 || first)
+    if (rd<=10 || first)
     {
         first = false;
         auto soldierFox = SoldierFox::create(line, this->getMidPoint().x);
